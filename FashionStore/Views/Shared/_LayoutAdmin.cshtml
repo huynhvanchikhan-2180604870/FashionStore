@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FashionStore</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FashionStore.styles.css" asp-append-version="true" />
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/style.css" type="text/css">
+</head>
+<body>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__option">
+            <div class="offcanvas__links">
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+        <div class="offcanvas__nav__option">
+            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+            
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__text">
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-7">
+                        <div class="header__top__left">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-5 ">
+                        <div class="header__top__right">
+                            <div class="header__top__links text-dark">
+                                @* <partial name="_LoginPartial" /> *@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__logo">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu">
+                        <ul>
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Area"].ToString() == "Admin" ? "active" : "")">
+                                <a asp-action="Index" asp-controller="Home" asp-area="Admin">Dashboard</a>
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Products" && ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Area"].ToString() == "Admin" ? "active" : "")">
+                                <a asp-action="Index" asp-controller="Products" asp-area="Admin">Product</a>
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "AnyOfProduct" && ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Area"].ToString() == "Admin" ? "active" : "")">
+                                <a asp-action="Index" asp-controller="AnyOfProduct" asp-area="Admin">Any</a>
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Accounts" && ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Area"].ToString() == "Admin" ? "active" : "")">
+                                <a asp-action="Index" asp-controller="Accounts" asp-area="Admin">Account</a>
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Orders" && ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Area"].ToString() == "Admin" ? "active" : "")">
+                                <a asp-action="Index" asp-controller="Orders" asp-area="Admin">Orders</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+       
+    </header>
+    <!-- Header Section End -->
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    
+    <!-- Js Plugins -->
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.nice-select.min.js"></script>
+    <script src="~/js/jquery.nicescroll.min.js"></script>
+    <script src="~/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/js/jquery.countdown.min.js"></script>
+    <script src="~/js/jquery.slicknav.js"></script>
+    <script src="~/js/mixitup.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script>
+        // Đợi cho trang tải xong
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy tất cả các mục menu
+            var menuItems = document.querySelectorAll('.header__menu ul li');
+
+            // Lặp qua từng mục menu
+            menuItems.forEach(function (item) {
+                // Lắng nghe sự kiện click trên mỗi mục menu
+                item.addEventListener('click', function () {
+                    // Xóa lớp 'active' khỏi tất cả các mục menu
+                    menuItems.forEach(function (menuItem) {
+                        menuItem.classList.remove('active');
+                    });
+
+                    // Thêm lớp 'active' vào mục menu đang được chọn
+                    item.classList.add('active');
+                });
+            });
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
