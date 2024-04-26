@@ -1,0 +1,32 @@
+﻿@model IEnumerable<FashionStore.Models.Product>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="text-end">
+    <a class="btn btn-success text-light">Add Category</a>
+</div>
+
+<div class="container pb-5 shadow mt-5" style="border-radius:15px;background:#FFF7FC">
+    <table class="table mt-3">
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Status</th>
+        </thead>
+        <tbody>
+            @foreach(var product in Model)
+            {
+                <tr>
+                    <td>@product.ProductID</td>
+                    <td>@product.ProductName</td>
+                    <td>@product.Price</td>
+                    <td>null</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

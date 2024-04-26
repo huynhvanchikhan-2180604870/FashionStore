@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using FashionStore.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    if (User.IsInRole(SD.Role_Admin))
+    {
+        <div class="header__top__links">
+            <a id="manage" class="nav-link text-light" asp-area="Admin" asp-action="Index" asp-controller="Home" title="Manage">Switch Admin Page</a>
+        </div>
+    }
+    <div class="header__top__links">
+        <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+    </div>
+}
+else
+{
+    <div class="header__top__links">
+        <a class="nav-link text-light" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+
+        <a class="nav-link text-light" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </div>
+}
