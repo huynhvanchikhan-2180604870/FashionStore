@@ -20,5 +20,11 @@ namespace FashionStore.Areas.Admin.Controllers
             var products = await _dbContext.Products.ToListAsync();
             return View(products);
         }
+
+        public async Task<IActionResult> Add()
+        {
+            //ViewBag.Categories = new Lis
+            return View();
+        }
     }
 }

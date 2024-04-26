@@ -5,7 +5,8 @@
 }
 
 <div class="text-end">
-    <a class="btn btn-success text-light">Add Category</a>
+    <a class="btn btn-success text-light" asp-action="index" asp-controller="Category" asp-area="admin">Add Category</a>
+    <a class="btn btn-success text-light" asp-action="Add" asp-controller="Products" asp-area="admin">Add Product</a>
 </div>
 
 <div class="container pb-5 shadow mt-5" style="border-radius:15px;background:#FFF7FC">
@@ -14,7 +15,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Status</th>
+            <th>Quantity</th>
         </thead>
         <tbody>
             @foreach(var product in Model)
@@ -23,7 +24,7 @@
                     <td>@product.ProductID</td>
                     <td>@product.ProductName</td>
                     <td>@product.Price</td>
-                    <td>null</td>
+                    <td>@product.QuantityOnHand</td>
                 </tr>
             }
         </tbody>

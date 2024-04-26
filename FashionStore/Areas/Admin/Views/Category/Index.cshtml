@@ -1,0 +1,46 @@
+﻿@model IEnumerable<FashionStore.Models.Category>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container shadow" style="border-radius:15px">
+    <div class="text-end">
+        <a class="btn btn-success" asp-action="Add">Add</a>
+    </div>
+    <table class="table mt-5">
+        <thead>
+            <th>#</th>
+            <th>Name</th>
+            <th>Product Count</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.CategoryID</td>
+                    <td>@category.CategoryName</td>
+                    <td>@category.Products.Count</td>
+                    <td>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+</script>
+
+
+

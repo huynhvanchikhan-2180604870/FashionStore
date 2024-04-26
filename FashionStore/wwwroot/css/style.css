@@ -179,6 +179,62 @@ ol {
 	padding: 14px 30px;
 }
 
+
+
+	 .navbar-nav .nav-link {
+		margin-right: 45px;
+		padding: 0;
+		color: var(--bs-dark);
+		font-weight: 500;
+		transition: .5s;
+		outline: none;
+	}
+
+		 .navbar-nav .nav-link:hover,
+		 .navbar-nav .nav-link.active {
+			color: var(--bs-white);
+		}
+
+	.dropdown-toggle::after {
+		border: none;
+		content: "\f107";
+		font-family: "Font Awesome 5 Free";
+		font-weight: 900;
+		vertical-align: middle;
+		margin-left: 8px;
+	}
+
+@media (max-width: 991.98px) {
+	 .navbar-nav {
+		padding: 0 15px;
+		background: var(--bs-primary);
+	}
+
+		.navbar-nav .nav-link {
+			margin-right: 0;
+			padding: 10px 0;
+		}
+}
+
+@media (min-width: 992px) {
+	 .nav-item .dropdown-menu {
+		display: block;
+		border: none;
+		margin-top: 0;
+		top: 150%;
+		opacity: 0;
+		visibility: hidden;
+		transition: .5s;
+	}
+
+	 .nav-item:hover .dropdown-menu {
+		top: 100%;
+		visibility: visible;
+		transition: .5s;
+		opacity: 1;
+	}
+}
+
 /* Preloder */
 
 #preloder {
@@ -506,8 +562,11 @@ ol {
 .header__nav__option {
 	text-align: right;
 	padding: 30px 0;
+	white-space: nowrap; /* Ngăn chặn xuống dòng cho phần tử con */
 }
-
+	.header__nav__option > * {
+		vertical-align: middle; /* Căn giữa theo chiều dọc */
+	}
 .header__nav__option a {
 	display: inline-block;
 	margin-right: 26px;
