@@ -1,0 +1,89 @@
+﻿@model FashionStore.Models.Product
+@using FashionStore.Setting
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var productID = GenerateRandomString.GenerateRandomStringWithDash(12);
+}
+
+@section Style {
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,900&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-md  modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius:20px">
+            <div class="modal-body py-0 text-center pt-4 pb-4 ps-5 ms-4">
+                <form method="post" class="me-5">
+                    <div class="text-start">
+                        <div class="row">
+                            <label asp-for="ProductID">ProductID</label>
+                            <input value="@productID" type="text" class="mb-3 me-2 form-control" asp-for="ProductID" style="border:none; border-radius:12px; border-bottom:1px solid black; font-size:15px; " />
+                        </div>
+                        <div class="row">
+                            <label asp-for="ProductName" >Product Name</label>
+                            <input type="text" class="mb-3 me-2 form-control" asp-for="ProductName" style="border:none; border-radius:12px; border-bottom:1px solid black; font-size:15px; " />
+                        </div>
+                        <div class="row">
+                            <label asp-for="CategoryId">Category</label>
+                            <select class="mb-3 form-control" asp-items="ViewBag.Categories" asp-for="CategoryId" style="border:none; border-radius:12px; border-bottom:1px solid black; font-size:15px"></select>
+                        </div>
+
+                        <div class="row">
+                            <label asp-for="Material">Material</label>
+                            <select class="mb-3 form-control" asp-items="ViewBag.Materials" asp-for="MaterialID" style="border:none; border-radius:12px; border-bottom:1px solid black; font-size:15px"></select>
+                        </div>
+
+                        <div class="row">
+                            <label asp-for="Price">Price</label>
+                            <input type="text" class="mb-3 me-2 form-control" asp-for="Price"  style="border:none; border-radius:12px; border-bottom:1px solid black; font-size:15px; " />
+                        </div>
+
+                        <div class="row">
+                            <label asp-for="QuantityOnHand">QuantityOnHand</label>
+                            <input type="text" class="mb-3 me-2 form-control" asp-for="QuantityOnHand" style="border:none; border-radius:12px; border-bottom:1px solid black; font-size:15px; " />
+                        </div>
+                        <div class="row">
+                            <label asp-for="ProductDescription">ProductDescription</label>
+                            <textarea cols="20" rows="4" class="mb-3 me-2 form-control" asp-for="ProductDescription" style="border:none; border-radius:12px; border-bottom:1px solid black; font-size:15px; "></textarea>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="ms-3 btn btn-success">Add</button>
+                        <a asp-action="Index" class="ms-3 btn btn-outline-danger text-center p-auto">Cancel</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/shop/modal/js/jquery-3.3.1.min.js"></script>
+    <script src="~/shop/modal/js/popper.min.js"></script>
+    <script src="~/shop/modal/js/bootstrap.min.js"></script>
+    <script src="~/shop/modal/js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#exampleModalCenter').modal('show');
+        });
+        $('#goToAdminPage').click(function () {
+            window.location.href = '@Url.Action("Index", "Home", new { area = "admin" })';
+        });
+    </script>
+}
+

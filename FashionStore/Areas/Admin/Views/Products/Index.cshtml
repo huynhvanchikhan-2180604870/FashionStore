@@ -5,7 +5,9 @@
 }
 
 <div class="text-end">
-    <a class="btn btn-success text-light">Add Category</a>
+    <a class="btn btn-success text-light" asp-action="index" asp-controller="Category" asp-area="admin">Add Category</a>
+    <a class="btn btn-success text-light" asp-action="Add" asp-controller="Products" asp-area="admin">Add Product</a>
+    <a class="btn btn-success text-light" asp-action="index" asp-controller="Material" asp-area="admin">Add Material</a>
 </div>
 
 <div class="container pb-5 shadow mt-5" style="border-radius:15px;background:#FFF7FC">
@@ -14,7 +16,10 @@
             <th>ID</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Status</th>
+            <th>Quantity</th>
+            <th>Caterory</th>
+            <th>Material</th>
+            <th></th>
         </thead>
         <tbody>
             @foreach(var product in Model)
@@ -23,7 +28,14 @@
                     <td>@product.ProductID</td>
                     <td>@product.ProductName</td>
                     <td>@product.Price</td>
-                    <td>null</td>
+                    <td>@product.QuantityOnHand</td>
+                    <td>@product.Category.CategoryName</td>
+                    <td>@product.Material.MaterialName</td>
+                    <td>
+                        <a asp-action="Display" asp-route-id ="@product.ProductID" class="btn btn-outline-warning">View</a>
+                        <a asp-action="Delete" asp-route-id="@product.ProductID" class="btn btn-outline-danger">Delete</a>
+                        <a asp-action="Add" asp-controller="ProductImage" asp-route-id="@product.ProductID">Add Images</a>
+                    </td>
                 </tr>
             }
         </tbody>

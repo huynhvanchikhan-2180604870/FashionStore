@@ -1,0 +1,39 @@
+﻿@model IEnumerable<FashionStore.Models.ProductDetail>
+@{
+    ViewData["Title"] = "Display";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div>
+    
+</div>
+
+<table class="table">
+    <thead>
+        <th>#</th>
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Size Tag</th>
+        <th></th>
+    </thead>
+    <tbody>
+        @foreach(var details in Model)
+        {
+            <tr>
+                <td>@details.ProductDetailID</td>
+                <td>@details.Product.ProductID</td>
+                <td>@details.Product.ProductName</td>
+                <td>@details.Quantity</td>
+                <td>@details.Size.SizeName</td>
+                <td>
+                    <a asp-action="Add" asp-controller="ProductDetail" asp-route-id="@details.Product.ProductID" class="btn btn-outline-success">Add Detail</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <div>
+        <a asp-action="Index" asp-controller="Products">Back to list</a>
+    </div>
+</table>
+

@@ -1,0 +1,59 @@
+﻿@model FashionStore.Models.Product
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<table class="table">
+    <thead>
+        <th>#</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>QuantityOnHand</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.ProductID</td>
+            <td>@Model.ProductName</td>
+            <td>@Model.Price</td>
+            <td>@Model.QuantityOnHand</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+<h1 class="h4 text-center font-weight-bold">Check Product Details</h1>
+<table class="table">
+    <thead>
+    <th>#</th>
+    <th>Product ID</th>
+    <th>Quantity</th>
+    <th>Size Tag</th>
+    <th></th>
+    </thead>
+    <tbody>
+        @foreach (var details in Model.ProductDetails)
+        {
+            <tr>
+                <td>@details.ProductDetailID</td>
+                <td>@details.Product.ProductID</td>
+                <td>@details.Quantity</td>
+                <td>@details.Size.SizeName</td>
+                <td>
+                    <a asp-action="Add" asp-controller="ProductDetail" asp-route-id="@details.Product.ProductID" class="btn btn-outline-success">Add Detail</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <div>
+        <a asp-action="Index" asp-controller="Products">Back to list</a>
+    </div>
+</table>
+
+<div class="text-center">
+    <form method="post" asp-action="Delete">
+        <button type="submit" class="btn btn-outline-danger">Delete</button>
+    </form>
+</div>

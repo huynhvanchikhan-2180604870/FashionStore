@@ -7,7 +7,8 @@ namespace FashionStore.Models
         [Key]
         public int ImageID { get; set; }
         public string UrlImage {  get; set; }
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
         public string ProductId { get; set; }
+        public bool IsCover {  get; set; }
     }
 }

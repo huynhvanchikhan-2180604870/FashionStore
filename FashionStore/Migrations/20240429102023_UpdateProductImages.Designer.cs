@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FashionStore.Migrations
 {
     [DbContext(typeof(FashionStoreDbContext))]
-    [Migration("20240426131441_updateModels")]
-    partial class updateModels
+    [Migration("20240429102023_UpdateProductImages")]
+    partial class UpdateProductImages
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -242,11 +242,10 @@ namespace FashionStore.Migrations
                     b.Property<string>("ProductID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CategoryID")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("CategoryName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MaterialID")
@@ -259,7 +258,6 @@ namespace FashionStore.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("QuantityOnHand")
@@ -267,7 +265,7 @@ namespace FashionStore.Migrations
 
                     b.HasKey("ProductID");
 
-                    b.HasIndex("CategoryID");
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("MaterialID");
 
@@ -282,7 +280,7 @@ namespace FashionStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductDetailID"));
 
-                    b.Property<int>("ColorID")
+                    b.Property<int?>("ColorID")
                         .HasColumnType("int");
 
                     b.Property<string>("ProductID")
@@ -292,7 +290,7 @@ namespace FashionStore.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("SizeID")
+                    b.Property<int?>("SizeID")
                         .HasColumnType("int");
 
                     b.HasKey("ProductDetailID");
@@ -313,6 +311,9 @@ namespace FashionStore.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageID"));
+
+                    b.Property<bool>("IsCover")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ProductId")
                         .IsRequired()
@@ -512,10 +513,8 @@ namespace FashionStore.Migrations
             modelBuilder.Entity("FashionStore.Models.Product", b =>
                 {
                     b.HasOne("FashionStore.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("FashionStore.Models.Material", "Material")
                         .WithMany()
@@ -530,25 +529,19 @@ namespace FashionStore.Migrations
 
             modelBuilder.Entity("FashionStore.Models.ProductDetail", b =>
                 {
-                    b.HasOne("FashionStore.Models.Color", "Color")
-                        .WithMany()
-                        .HasForeignKey("ColorID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("FashionStore.Models.Color", null)
+                        .WithMany("ProductDetails")
+                        .HasForeignKey("ColorID");
 
                     b.HasOne("FashionStore.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductDetails")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FashionStore.Models.Size", "Size")
-                        .WithMany()
-                        .HasForeignKey("SizeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Color");
+                        .WithMany("ProductDetails")
+                        .HasForeignKey("SizeID");
 
                     b.Navigation("Product");
 
@@ -617,9 +610,26 @@ namespace FashionStore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FashionStore.Models.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("FashionStore.Models.Color", b =>
+                {
+                    b.Navigation("ProductDetails");
+                });
+
             modelBuilder.Entity("FashionStore.Models.Product", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("ProductDetails");
+                });
+
+            modelBuilder.Entity("FashionStore.Models.Size", b =>
+                {
+                    b.Navigation("ProductDetails");
                 });
 #pragma warning restore 612, 618
         }

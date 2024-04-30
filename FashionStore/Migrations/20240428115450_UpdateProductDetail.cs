@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FashionStore.Migrations
 {
     /// <inheritdoc />
-    public partial class updateModels : Migration
+    public partial class UpdateProductDetail : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -254,9 +254,9 @@ namespace FashionStore.Migrations
                 columns: table => new
                 {
                     ProductID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     QuantityOnHand = table.Column<int>(type: "int", nullable: false),
                     MaterialID = table.Column<int>(type: "int", nullable: false),
@@ -266,11 +266,10 @@ namespace FashionStore.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.ProductID);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryID",
-                        column: x => x.CategoryID,
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "CategoryID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CategoryID");
                     table.ForeignKey(
                         name: "FK_Products_Materials_MaterialID",
                         column: x => x.MaterialID,
@@ -314,9 +313,9 @@ namespace FashionStore.Migrations
                     ProductDetailID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ColorID = table.Column<int>(type: "int", nullable: false),
-                    SizeID = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    SizeID = table.Column<int>(type: "int", nullable: true),
+                    ColorID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -325,8 +324,7 @@ namespace FashionStore.Migrations
                         name: "FK_ProductDetails_Colors_ColorID",
                         column: x => x.ColorID,
                         principalTable: "Colors",
-                        principalColumn: "ColorID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ColorID");
                     table.ForeignKey(
                         name: "FK_ProductDetails_Products_ProductID",
                         column: x => x.ProductID,
@@ -337,8 +335,7 @@ namespace FashionStore.Migrations
                         name: "FK_ProductDetails_Sizes_SizeID",
                         column: x => x.SizeID,
                         principalTable: "Sizes",
-                        principalColumn: "SizeID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SizeID");
                 });
 
             migrationBuilder.CreateTable(
@@ -436,9 +433,9 @@ namespace FashionStore.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryID",
+                name: "IX_Products_CategoryId",
                 table: "Products",
-                column: "CategoryID");
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_MaterialID",

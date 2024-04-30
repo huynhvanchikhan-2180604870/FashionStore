@@ -19,6 +19,11 @@ namespace FashionStore.Data
         public DbSet<ProductDetail> ProductDetails { get; set; }
         public DbSet<Material> Materials { get; set; }
 
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+
+
     }
 }

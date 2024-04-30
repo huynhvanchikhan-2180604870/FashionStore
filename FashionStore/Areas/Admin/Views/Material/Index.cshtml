@@ -1,0 +1,31 @@
+﻿@model IEnumerable<FashionStore.Models.Material>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="text-end">
+    <a asp-action="Add" class="btn btn-success">Add</a>
+</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <th>#</th>
+            <th>Material Name</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @foreach(var item in Model){
+                <tr>
+                    <td>@item.MaterialID</td>
+                    <td>@item.MaterialName</td>
+                    <td>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
