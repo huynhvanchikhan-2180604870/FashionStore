@@ -34,6 +34,7 @@
                     <td>
                         <a asp-action="Display" asp-route-id ="@product.ProductID" class="btn btn-outline-warning">View</a>
                         <a asp-action="Delete" asp-route-id="@product.ProductID" class="btn btn-outline-danger">Delete</a>
+                        <a asp-action="Add" asp-controller="ProductImage" asp-route-id="@product.ProductID">Add Images</a>
                     </td>
                 </tr>
             }

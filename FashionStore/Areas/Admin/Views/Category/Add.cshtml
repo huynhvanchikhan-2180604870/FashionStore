@@ -64,7 +64,7 @@
             <div class="modal-body py-0 text-center pt-4 pb-4 ps-5 ms-4">
                 <form method="post">
                     <div class="input-group text-center">
-                        <input required="" type="text" asp-for="@Model.CategoryName"autocomplete="off" class="input">
+                        <input type="text" asp-for="@Model.CategoryName">
                         <label asp-for="@Model.CategoryName" class="user-label">Category Name</label>
                         <button type="submit" class="ms-3 btn btn-success">Add</button>
                         <a asp-action="Index" class="ms-3 btn btn-outline-danger text-center p-auto">Cancel</a>

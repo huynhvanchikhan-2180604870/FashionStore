@@ -277,7 +277,7 @@ namespace FashionStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductDetailID"));
 
-                    b.Property<int>("ColorID")
+                    b.Property<int?>("ColorID")
                         .HasColumnType("int");
 
                     b.Property<string>("ProductID")
@@ -287,7 +287,7 @@ namespace FashionStore.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("SizeID")
+                    b.Property<int?>("SizeID")
                         .HasColumnType("int");
 
                     b.HasKey("ProductDetailID");
@@ -308,6 +308,9 @@ namespace FashionStore.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageID"));
+
+                    b.Property<bool>("IsCover")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ProductId")
                         .IsRequired()
@@ -523,25 +526,19 @@ namespace FashionStore.Migrations
 
             modelBuilder.Entity("FashionStore.Models.ProductDetail", b =>
                 {
-                    b.HasOne("FashionStore.Models.Color", "Color")
-                        .WithMany()
-                        .HasForeignKey("ColorID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("FashionStore.Models.Color", null)
+                        .WithMany("ProductDetails")
+                        .HasForeignKey("ColorID");
 
                     b.HasOne("FashionStore.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductDetails")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FashionStore.Models.Size", "Size")
-                        .WithMany()
-                        .HasForeignKey("SizeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Color");
+                        .WithMany("ProductDetails")
+                        .HasForeignKey("SizeID");
 
                     b.Navigation("Product");
 
@@ -615,9 +612,21 @@ namespace FashionStore.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("FashionStore.Models.Color", b =>
+                {
+                    b.Navigation("ProductDetails");
+                });
+
             modelBuilder.Entity("FashionStore.Models.Product", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("ProductDetails");
+                });
+
+            modelBuilder.Entity("FashionStore.Models.Size", b =>
+                {
+                    b.Navigation("ProductDetails");
                 });
 #pragma warning restore 612, 618
         }

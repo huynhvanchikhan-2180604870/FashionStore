@@ -17,5 +17,6 @@ namespace FashionStore.Models
         public Material? Material { get; set; }
         public string? ProductDescription { get; set; }
         public IEnumerable<ProductImage>? Images { get; set; }
+        public ICollection<ProductDetail>? ProductDetails { get; set; }
     }
 }

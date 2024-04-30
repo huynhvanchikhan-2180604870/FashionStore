@@ -48,12 +48,58 @@ namespace FashionStore.Areas.Admin.Controllers
 
         public async Task<IActionResult>Display(string id)
         {
-            var details = await _dbContext.ProductDetails.FirstOrDefaultAsync(x => x.ProductID == id);
-            if(details == null)
+            var details = await _dbContext.ProductDetails
+                .Include(p => p.Size)
+                .Include(x => x.Product)
+                .Where(x => x.ProductID == id)  // Filter based on provided id
+                .ToListAsync();
+
+            if (details.Count <= 0)
             {
                 return RedirectToAction("Add","ProductDetail", new { id });
             }
-            return View();
+            return View(details);
         }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var productDetail = await _dbContext.ProductDetails
+                .Include(p => p.Product)
+                .Include(s => s.Size)
+                .Where(x => x.ProductID == id)
+                .ToListAsync();
+
+            var product = await _dbContext.Products.FirstOrDefaultAsync(x => x.ProductID == id);
+            if(product != null)
+            {
+                product.ProductDetails = productDetail;
+            }
+            return View(product);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeletedConfirm(string id)
+        {
+            var product = await _dbContext.Products.FirstOrDefaultAsync(x => x.ProductID == id);
+            if (product != null)
+            {
+                var productdetails = await _dbContext.ProductDetails.Where(x => x.ProductID == product.ProductID).ToListAsync();
+
+                for (int i = productdetails.Count - 1; i >= 0; i--)
+                {
+                    var detail = productdetails[i];
+                    _dbContext.ProductDetails.Remove(detail);
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+                _dbContext.Products.Remove(product);
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

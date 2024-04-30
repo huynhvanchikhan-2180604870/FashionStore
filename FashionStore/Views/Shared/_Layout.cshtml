@@ -31,15 +31,11 @@
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__option">
             <div class="offcanvas__links">
-                <partial name="_LoginPartial" />
+               @*  <partial name="_LoginPartial" /> *@
             </div>
             <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
+                <span><img src="~/img/icon/user-regular.svg" /> <i class="arrow_carrot-down"></i></span>
+                <partial name="_LoginPartialMobile" />
             </div>
         </div>
         <div class="offcanvas__nav__option">
@@ -47,11 +43,25 @@
             <a href="#"><img src="img/icon/heart.png" alt=""></a>
             <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
             <div class="price">$0.00</div>
+            <div class="offcanvas__top__hover">
+                <span> <img src="~/img/icon/user-regular.svg" /></span>
+                <ul>
+                    <partial name="_LoginPartial" />
+                </ul>
+            </div>
+            <div class="ms-2 d-inline-block">
+                <div class="nav-item dropdown">
+                    <span href="#" class="text-dark d-inline-block" style="font-size: 12px">
+                        <img src="~/img/icon/user-regular.svg" />
+                    </span>
+                    <ul>
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </div>
+            </div>
         </div>
         <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
+        
     </div>
     <!-- Offcanvas Menu End -->
     <!-- Page Preloder -->
@@ -60,23 +70,6 @@
     </div>
     <!-- Header Section Begin -->
     <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-5 ">
-                        <div class="header__top__right">
-                            <div class="header__top__links text-dark">
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-3">

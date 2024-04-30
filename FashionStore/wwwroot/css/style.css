@@ -3637,42 +3637,42 @@ ol {
 		opacity: 1;
 		visibility: visible;
 	}
-	.offcanvas__top__hover span {
-		color: #111111;
-		font-size: 13px;
-		text-transform: uppercase;
-		letter-spacing: 2px;
-		display: inline-block;
-		cursor: pointer;
-		font-weight: 600;
-	}
+		.offcanvas__top__hover span {
+			color: #ffffff;
+			font-size: 13px;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			display: inline-block;
+			cursor: pointer;
+			font-weight: 600;
+		}
 	.offcanvas__top__hover span i {
 		font-size: 20px;
 		position: relative;
 		top: 3px;
 		right: 2px;
 	}
-	.offcanvas__top__hover ul {
-		background: #111111;
-		display: inline-block;
-		padding: 2px 0;
-		position: absolute;
-		left: 0;
-		top: 44px;
-		opacity: 0;
-		visibility: hidden;
-		z-index: 3;
-		-webkit-transition: all, 0.3s;
-		-o-transition: all, 0.3s;
-		transition: all, 0.3s;
-	}
-	.offcanvas__top__hover ul li {
-		list-style: none;
-		font-size: 13px;
-		color: #ffffff;
-		padding: 2px 15px;
-		cursor: pointer;
-	}
+		.offcanvas__top__hover ul {
+			background:  #ffffff;
+			display: inline-block;
+			padding: 2px 0;
+			position: absolute;
+			left: 0;
+			top: 44px;
+			opacity: 0;
+			visibility: hidden;
+			z-index: 3;
+			-webkit-transition: all, 0.3s;
+			-o-transition: all, 0.3s;
+			transition: all, 0.3s;
+		}
+			.offcanvas__top__hover ul li {
+				list-style: none;
+				font-size: 13px;
+				color: #111111;
+				padding: 2px 15px;
+				cursor: pointer;
+			}
 	.offcanvas__nav__option {
 		text-align: center;
 		margin-bottom: 25px;

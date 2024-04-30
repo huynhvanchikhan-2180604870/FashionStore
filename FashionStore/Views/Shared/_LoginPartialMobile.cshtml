@@ -3,28 +3,29 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+<ul>
 
 @if (SignInManager.IsSignedIn(User))
 {
     if (User.IsInRole(SD.Role_Admin))
     {
-        <div>
-            <a id="manage" class="nav-link dropdown-item text-black" asp-area="Admin" asp-action="Index" asp-controller="Home" title="Manage">Switch Admin Page</a>
+        <li >
+                <a id="manage" class="text-light nav-link" asp-area="Admin" asp-action="Index" asp-controller="Home" title="Manage">Switch Admin Page</a>
 
-        </div>
+        </li>
 
     }
-    <div>
-        <a id="manage" class="nav-link dropdown-item text-black" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account Manager</a>
+    <li>
+            <a id="manage" class="text-light nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account Manager</a>
 
-    </div>
+    </li>
 
 
-    <div>
+    <li>
         <form id="logoutForm" class="form-inline " asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0 ps-3">Logout</button>
+            <button id="logout" type="submit" class="nav-link border-0 ps-3">Logout</button>
         </form>
-    </div>
+    </li>
 
 
 }
@@ -41,3 +42,5 @@ else
     </div>
 
 }
+
+</ul>
