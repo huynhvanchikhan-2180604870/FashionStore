@@ -8,6 +8,8 @@ namespace FashionStore.Models
         public string? ProductName { get; set; }
         public string? CategoryName { get; set; }
         public int? CategoryId { get; set; }
+        public int? BrandId {  get; set; }
+        public Brand? Brand { get; set; }   
         // Lazy-loaded navigation property
         [JsonIgnore]
         public virtual Category? Category { get; set; }
@@ -17,6 +19,8 @@ namespace FashionStore.Models
         public Material? Material { get; set; }
         public string? ProductDescription { get; set; }
         public IEnumerable<ProductImage>? Images { get; set; }
+
+        [JsonIgnore] // Add this line
         public ICollection<ProductDetail>? ProductDetails { get; set; }
     }
 }

@@ -1,0 +1,235 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@model FashionStore.ModelsViews.MVOrder
+@inject UserManager<ApplicationUser> _userManager;
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var currentUser = await _userManager.GetUserAsync(User);
+}
+@section Style {
+    <style>
+        .Btn {
+            width: 130px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(15, 15, 15);
+            border: none;
+            color: white;
+            font-weight: 600;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
+            position: relative;
+            overflow: hidden;
+            transition-duration: .3s;
+        }
+
+        .svgIcon {
+            width: 16px;
+        }
+
+            .svgIcon path {
+                fill: white;
+            }
+
+        .Btn::before {
+            width: 130px;
+            height: 130px;
+            position: absolute;
+            content: "";
+            background-color: white;
+            border-radius: 50%;
+            left: -100%;
+            top: 0;
+            transition-duration: .3s;
+            mix-blend-mode: difference;
+        }
+
+        .Btn:hover::before {
+            transition-duration: .3s;
+            transform: translate(100%,-50%);
+            border-radius: 0;
+        }
+
+        .Btn:active {
+            transform: translate(5px,5px);
+            transition-duration: .3s;
+        }
+    </style>
+}
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Check Out</h4>
+                    <div class="breadcrumb__links">
+                        <a asp-action="Index" asp-controller="Home" asp-area="default">Home</a>
+                        <a asp-action="Index" asp-controller="Product" asp-area="default">Shop</a>
+                        <span>Check Out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <form method="post">
+                <div class="row">
+                    <div class="col-lg-8 col-md-6">
+                        <h6 class="checkout__title">Billing Details</h6>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="checkout__input">
+                                    <p>Full Name<span>*</span></p>
+                                    <input class="font-weight-bold" type="text" value="@((@currentUser== null)?"":@currentUser.FullName)">
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="checkout__input">
+                            <p>Address<span>*</span></p>
+                            <input type="text" placeholder="Street Address" class="checkout__input__add" value="@((@currentUser == null)?"":@currentUser.Address)">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Phone<span>*</span></p>
+                                    <input type="text" value="@((@currentUser == null)?"":@currentUser.PhoneNumber)">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Email<span>*</span></p>
+                                    <input type="text" value="@((@currentUser == null)?"":@currentUser.Email)">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="checkout__input">
+                            <p>Order notes<span>*</span></p>
+                            <input type="text"
+                                   placeholder="Notes about your order, e.g. special notes for delivery." asp-for="@Model.Order.Notes">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h4 class="order__title">Your order</h4>
+                            <div class="checkout__order__products">Product <span>Total</span></div>
+                            <ul class="checkout__total__products">
+                                @foreach(var item in Model.ShoppingCart.Items)
+                                {
+                                    <li>@item.Product.ProductName <span>@(item.Product.Price * item.Quantity)</span></li>
+                                }
+                                @* <li>  <span>$ 300.0</span></li>
+                                <li>02. German chocolate <span>$ 170.0</span></li>
+                                <li>03. Sweet autumn <span>$ 170.0</span></li>
+                                <li>04. Cluten free mini dozen <span>$ 110.0</span></li> *@
+                            </ul>
+                            <ul class="checkout__total__all">
+                                <li>Subtotal <span>@Model.ShoppingCart.Items.Sum(x=>x.Product.Price * x.Quantity)</span></li>
+                                <li>Total <span>@Model.ShoppingCart.Items.Sum(x => x.Product.Price * x.Quantity)</span></li>
+                            </ul>
+                            
+                                <button class="Btn mb-2 ms-auto me-auto text-center" type="submit" name="payment" value="VNPAY">
+                                    VNPAY
+                                    <svg class="svgIcon" viewBox="0 0 576 512"><path d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z"></path></svg>
+                                </button>                       
+                            <div  id="paypal-button-container" style="max-width:1000px;"></div>
+                            <button type="submit" class="site-btn">PLACE ORDER</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<div class="notifications-container" hidden>
+    <div class="success">
+        <div class="flex">
+            <div class="flex-shrink-0">
+
+                <svg class="succes-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            <div class="success-prompt-wrap">
+                <p class="success-prompt-heading">
+                    Order completed
+                </p><div class="success-prompt-prompt">
+                    <p>You're happy now? Does this impulsive action is really going to satisfy you? Don't answer me, answer yourself. Anyway, your party-size pizza combo is on it's way.</p>
+                </div>
+                <div class="success-button-container">
+                    <button type="button" class="success-button-main">View status</button>
+                    <button type="button" class="success-button-secondary">Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Checkout Section End -->
+@section Scripts {
+    <script src="https://www.paypal.com/sdk/js?client-id=@ViewBag.PaypalClientId"></script>
+    <script>
+        paypal.Buttons({
+            createOrder: function (data, actions) {
+                // This function sets up the details of the transaction, including the amount and line item details.
+                return fetch("/Shopping/create-paypal-order", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        cart: [
+                            {
+                                sku: "YOUR_PRODUCT_STOCK_KEEPING_UNIT",
+                                quantity: "YOUR_PRODUCT_QUANTITY",
+                            },
+                        ]
+                    })
+                })
+                    .then((response) => response.json())
+                    .then((order) => order.id);
+            },
+            onApprove: function (data, actions) {
+                // This function captures the funds from the transaction.
+                return fetch(`/Shopping/capture-paypal-order?orderId=${data.orderID}`, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        orderID: data.orderID
+                    })
+                }).then((response) => {
+                    if (!response.ok) {
+                        return response.json().then((err) => {
+                            throw err;
+                        });
+                    }
+                    return response.json();
+                }).then((details) => {
+                    // This function shows a transaction success message to your buyer.
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                    window.location.href = "/Shopping/OrderCompleted";
+                }).catch(err => {
+                    alert(err.message);
+                });
+            },
+            style: {
+                layout: 'vertical',
+                color: 'blue',
+                shape: 'rect',
+                label: 'paypal'
+            }
+        }).render('#paypal-button-container');
+
+    </script>
+}
+
+

@@ -6,6 +6,6 @@ namespace FashionStore.Models
     {
         public string FullName {  get; set; }
         public string Address { get; set; }
-
+        public IEnumerable<OrderHistories> OrderHistories { get; set; }
     }
 }
