@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FashionStore.Setting
+namespace FashionStore.HelperClass
 {
     public class GenerateRandomString
     {

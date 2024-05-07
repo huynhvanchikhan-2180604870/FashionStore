@@ -4,6 +4,7 @@ using FashionStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FashionStore.Migrations
 {
     [DbContext(typeof(FashionStoreDbContext))]
-    partial class FashionStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240501081112_UpdateBrandProduct")]
+    partial class UpdateBrandProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,34 +235,6 @@ namespace FashionStore.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("OrderDetails");
-                });
-
-            modelBuilder.Entity("FashionStore.Models.OrderHistories", b =>
-                {
-                    b.Property<int>("HistoryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HistoryID"));
-
-                    b.Property<int?>("OrderDetailID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("HistoryID");
-
-                    b.HasIndex("OrderDetailID");
-
-                    b.HasIndex("OrderID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("OrderHistories");
                 });
 
             modelBuilder.Entity("FashionStore.Models.Product", b =>
@@ -524,7 +499,7 @@ namespace FashionStore.Migrations
             modelBuilder.Entity("FashionStore.Models.OrderDetail", b =>
                 {
                     b.HasOne("FashionStore.Models.Order", "Order")
-                        .WithMany("Details")
+                        .WithMany()
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -538,27 +513,6 @@ namespace FashionStore.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("FashionStore.Models.OrderHistories", b =>
-                {
-                    b.HasOne("FashionStore.Models.OrderDetail", "OrderDetail")
-                        .WithMany()
-                        .HasForeignKey("OrderDetailID");
-
-                    b.HasOne("FashionStore.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderID");
-
-                    b.HasOne("FashionStore.Models.ApplicationUser", "User")
-                        .WithMany("OrderHistories")
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("OrderDetail");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FashionStore.Models.Product", b =>
@@ -667,11 +621,6 @@ namespace FashionStore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FashionStore.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("OrderHistories");
-                });
-
             modelBuilder.Entity("FashionStore.Models.Brand", b =>
                 {
                     b.Navigation("Products");
@@ -685,11 +634,6 @@ namespace FashionStore.Migrations
             modelBuilder.Entity("FashionStore.Models.Color", b =>
                 {
                     b.Navigation("ProductDetails");
-                });
-
-            modelBuilder.Entity("FashionStore.Models.Order", b =>
-                {
-                    b.Navigation("Details");
                 });
 
             modelBuilder.Entity("FashionStore.Models.Product", b =>

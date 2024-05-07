@@ -1,4 +1,6 @@
-﻿namespace FashionStore.Models
+﻿using FashionStore.ShoppingModels;
+
+namespace FashionStore.Models
 {
     public class Order
     {
@@ -12,5 +14,6 @@
         public string? Notes { get; set; }
         public ApplicationUser User { get; set; }
         public decimal Disscount { get; set; }
+        public IEnumerable<OrderDetail> Details { get; set; }
     }
 }

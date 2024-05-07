@@ -3705,9 +3705,13 @@ ol {
 		color: #111111;
 		margin-bottom: 0;
 	}
-	.header__top {
-		display: none;
-	}
+
+	
+
+
+		.header__top {
+			display: none;
+		}
 	.header .container {
 		position: relative;
 	}
