@@ -202,6 +202,7 @@ namespace FashionStore.Controllers
         {
             return View();
         }
+
         [Authorize]
         public IActionResult PaymentFail()
         {
