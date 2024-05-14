@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FashionStore.Controllers
 {
+    [Authorize]
     public class ShoppingController : Controller
     {
         private readonly FashionStoreDbContext _context;

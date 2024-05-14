@@ -4,6 +4,7 @@ using FashionStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FashionStore.Migrations
 {
     [DbContext(typeof(FashionStoreDbContext))]
-    partial class FashionStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240512151914_AddComment")]
+    partial class AddComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -156,9 +159,6 @@ namespace FashionStore.Migrations
 
                     b.Property<DateTime?>("CommentDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
@@ -415,29 +415,6 @@ namespace FashionStore.Migrations
                     b.ToTable("Sizes");
                 });
 
-            modelBuilder.Entity("FashionStore.Models.WishList", b =>
-                {
-                    b.Property<int>("WishListID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishListID"));
-
-                    b.Property<string>("ProductID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("WishListID");
-
-                    b.HasIndex("ProductID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("WishList");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -692,21 +669,6 @@ namespace FashionStore.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("FashionStore.Models.WishList", b =>
-                {
-                    b.HasOne("FashionStore.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductID");
-
-                    b.HasOne("FashionStore.Models.ApplicationUser", "User")
-                        .WithMany("WishLists")
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -761,8 +723,6 @@ namespace FashionStore.Migrations
             modelBuilder.Entity("FashionStore.Models.ApplicationUser", b =>
                 {
                     b.Navigation("OrderHistories");
-
-                    b.Navigation("WishLists");
                 });
 
             modelBuilder.Entity("FashionStore.Models.Brand", b =>

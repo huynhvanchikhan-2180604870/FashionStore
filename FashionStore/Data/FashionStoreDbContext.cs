@@ -18,7 +18,8 @@ namespace FashionStore.Data
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ProductDetail> ProductDetails { get; set; }
         public DbSet<Material> Materials { get; set; }
-
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<WishList> WishList { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

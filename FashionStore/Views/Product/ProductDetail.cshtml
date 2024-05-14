@@ -1,4 +1,6 @@
-﻿@model FashionStore.ShoppingModels.CartItem
+﻿@using Microsoft.AspNetCore.Identity
+@model FashionStore.ShoppingModels.CartItem
+@inject UserManager<ApplicationUser> _userManager;
 @{
     ViewData["Title"] = "ProductDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,6 +8,45 @@
     var j = 0;
     var quantity = 0;
 }
+
+<style>
+    .commentBox {
+        background-color: #efefef;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .starFade {
+        background-image: url('https://i.imgur.com/l1v62LE.gif');
+        min-width: 30px;
+        min-height: 30px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .starFadeN {
+        background-image: url('https://i.imgur.com/l1v62LE.gif');
+        min-width: 30px;
+        min-height: 30px;
+        display: inline-block;
+    }
+
+    .starGlow {
+        background-image: url('https://i.imgur.com/hHU12Q5.gif');
+        min-width: 30px;
+        min-height: 30px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .starGlowN {
+        background-image: url('https://i.imgur.com/hHU12Q5.gif');
+        min-width: 30px;
+        min-height: 30px;
+        display: inline-block;
+    }
+
+</style>
 
 <!-- Shop Details Section Begin -->
 <section class="shop-details">
@@ -67,7 +108,7 @@
                         </div>
                         <h3>@Model.Product.Price</h3>
                         <p>
-                           @Model.Product.ProductDescription
+                            @Model.Product.ProductDescription
                         </p>
                         <form method="post">
                             <div class="product__details__option">
@@ -93,178 +134,94 @@
                             </div>
                             <div class="product__details__cart__option">
 
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" asp-for="@Model.Quantity">
-                                        </div>
+                                <div class="quantity">
+                                    <div class="pro-qty">
+                                        <input type="text" asp-for="@Model.Quantity">
                                     </div>
-                                
+                                </div>
+
                                 <button type="submit" class="primary-btn"
-                                asp-action="AddToCart" asp-controller="Shopping"
-                                asp-route-id="@Model.ProductId" asp-route-quantity = "@Model.Quantity" asp-route-sizeid="@Model.SizeID">
+                                        asp-action="AddToCart" asp-controller="Shopping"
+                                        asp-route-id="@Model.ProductId" asp-route-quantity="@Model.Quantity" asp-route-sizeid="@Model.SizeID">
                                     add to cart
                                 </button>
                             </div>
                         </form>
-                        
+
                         <div class="product__details__btns__option">
-                            <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
+                            <a asp-action="AddWishList" asp-controller="WishList" asp-route-productid="@Model.ProductId"><i class="fa fa-heart"></i> add to wishlist</a>
                             <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
                         </div>
-                        <div class="product__details__last__option">
-                            <h5><span>Guaranteed Safe Checkout</span></h5>
-                            <img src="img/shop-details/details-payment.png" alt="">
-                            <ul>
-                                <li><span>SKU:</span> 3812912</li>
-                                <li><span>Categories:</span> Clothes</li>
-                                <li><span>Tag:</span> Clothes, Skin, Body</li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="product__details__tab">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-5"
-                                   role="tab">Description</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">
-                                    Customer
-                                    Previews(5)
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">
-                                    Additional
-                                    information
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-5" role="tabpanel">
-                                <div class="product__details__tab__content">
-                                    <p class="note">
-                                        Nam tempus turpis at metus scelerisque placerat nulla deumantos
-                                        solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
-                                        ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
-                                        pharetras loremos.
-                                    </p>
-                                    <div class="product__details__tab__content__item">
-                                        <h5>Products Infomation</h5>
-                                        <p>
-                                            A Pocket PC is a handheld computer, which features many of the same
-                                            capabilities as a modern PC. These handy little devices allow
-                                            individuals to retrieve and store e-mail messages, create a contact
-                                            file, coordinate appointments, surf the internet, exchange text messages
-                                            and more. Every product that is labeled as a Pocket PC must be
-                                            accompanied with specific software to operate the unit and must feature
-                                            a touchscreen and touchpad.
-                                        </p>
-                                        <p>
-                                            As is the case with any new technology product, the cost of a Pocket PC
-                                            was substantial during it’s early release. For approximately $700.00,
-                                            consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                            These days, customers are finding that prices have become much more
-                                            reasonable now that the newness is wearing off. For approximately
-                                            $350.00, a new Pocket PC can now be purchased.
-                                        </p>
+                        <div>
+                            <hr>
+                            <h3 class="text-center font-weight-bold text-uppercase mb-3">Review</h3>
+                            <div class="container shadow pb-3 pt-3 ps-3 pe-3" style="border-radius: 14px; background: #F1F1F1;">
+
+                                @foreach (var comment in Model.Product.Comments)
+                                {
+                                    <div class="card mb-2" style="border-radius:11px">
+                                        
+                                        <div class="card-body">
+                                            <label style="border-bottom:1px solid red" for="">@comment.FullName (@comment.Rate)</label>
+                                            <p>@comment.Message</p>
+                                        </div>
                                     </div>
-                                    <div class="product__details__tab__content__item">
-                                        <h5>Material used</h5>
-                                        <p>
-                                            Polyester is deemed lower quality due to its none natural quality’s. Made
-                                            from synthetic materials, not natural like wool. Polyester suits become
-                                            creased easily and are known for not being breathable. Polyester suits
-                                            tend to have a shine to them compared to wool and cotton suits, this can
-                                            make the suit look cheap. The texture of velvet is luxurious and
-                                            breathable. Velvet is a great choice for dinner party jacket and can be
-                                            worn all year round.
-                                        </p>
-                                    </div>
-                                </div>
+                                }
+
+
                             </div>
-                            <div class="tab-pane" id="tabs-6" role="tabpanel">
-                                <div class="product__details__tab__content">
-                                    <div class="product__details__tab__content__item">
-                                        <h5>Products Infomation</h5>
-                                        <p>
-                                            A Pocket PC is a handheld computer, which features many of the same
-                                            capabilities as a modern PC. These handy little devices allow
-                                            individuals to retrieve and store e-mail messages, create a contact
-                                            file, coordinate appointments, surf the internet, exchange text messages
-                                            and more. Every product that is labeled as a Pocket PC must be
-                                            accompanied with specific software to operate the unit and must feature
-                                            a touchscreen and touchpad.
-                                        </p>
-                                        <p>
-                                            As is the case with any new technology product, the cost of a Pocket PC
-                                            was substantial during it’s early release. For approximately $700.00,
-                                            consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                            These days, customers are finding that prices have become much more
-                                            reasonable now that the newness is wearing off. For approximately
-                                            $350.00, a new Pocket PC can now be purchased.
-                                        </p>
-                                    </div>
-                                    <div class="product__details__tab__content__item">
-                                        <h5>Material used</h5>
-                                        <p>
-                                            Polyester is deemed lower quality due to its none natural quality’s. Made
-                                            from synthetic materials, not natural like wool. Polyester suits become
-                                            creased easily and are known for not being breathable. Polyester suits
-                                            tend to have a shine to them compared to wool and cotton suits, this can
-                                            make the suit look cheap. The texture of velvet is luxurious and
-                                            breathable. Velvet is a great choice for dinner party jacket and can be
-                                            worn all year round.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-7" role="tabpanel">
-                                <div class="product__details__tab__content">
-                                    <p class="note">
-                                        Nam tempus turpis at metus scelerisque placerat nulla deumantos
-                                        solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
-                                        ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
-                                        pharetras loremos.
-                                    </p>
-                                    <div class="product__details__tab__content__item">
-                                        <h5>Products Infomation</h5>
-                                        <p>
-                                            A Pocket PC is a handheld computer, which features many of the same
-                                            capabilities as a modern PC. These handy little devices allow
-                                            individuals to retrieve and store e-mail messages, create a contact
-                                            file, coordinate appointments, surf the internet, exchange text messages
-                                            and more. Every product that is labeled as a Pocket PC must be
-                                            accompanied with specific software to operate the unit and must feature
-                                            a touchscreen and touchpad.
-                                        </p>
-                                        <p>
-                                            As is the case with any new technology product, the cost of a Pocket PC
-                                            was substantial during it’s early release. For approximately $700.00,
-                                            consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                            These days, customers are finding that prices have become much more
-                                            reasonable now that the newness is wearing off. For approximately
-                                            $350.00, a new Pocket PC can now be purchased.
-                                        </p>
-                                    </div>
-                                    <div class="product__details__tab__content__item">
-                                        <h5>Material used</h5>
-                                        <p>
-                                            Polyester is deemed lower quality due to its none natural quality’s. Made
-                                            from synthetic materials, not natural like wool. Polyester suits become
-                                            creased easily and are known for not being breathable. Polyester suits
-                                            tend to have a shine to them compared to wool and cotton suits, this can
-                                            make the suit look cheap. The texture of velvet is luxurious and
-                                            breathable. Velvet is a great choice for dinner party jacket and can be
-                                            worn all year round.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    Comment
+                                </dt>
+
+                                <dd>
+                                    <form asp-action="Comment">
+                                        <div class="commentBox">
+
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">
+                                                        Your rating <span style="font-weight:normal;">(1 start is bad, 5 star is good)</span>
+                                                    </label>
+                                                    <div class="col-md-7">
+                                                        <div onmouseout="CRateSelected()">
+                                                            <span class="starFade" id="Rate1" onclick="CRate(1)" onmouseover="CRateOver(1)" onmouseout="CRateOut(1)"></span><span class="starFade" id="Rate2" onclick="CRate(2)" onmouseover="CRateOver(2)" onmouseout="CRateOut(2)"></span><span class="starFade" id="Rate3" onclick="CRate(3)" onmouseover="CRateOver(3)" onmouseout="CRateOut(3)"></span><span class="starFade" id="Rate4" onclick="CRate(4)" onmouseover="CRateOver(4)" onmouseout="CRateOut(4)"></span><span class="starFade" id="Rate5" onclick="CRate(5)" onmouseover="CRateOver(5)" onmouseout="CRateOut(5)"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <textarea name="Comment" id="Comment" required rows="5" style="width:100%;" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        @{
+                                                            var currentUser = await _userManager.GetUserAsync(User);
+                                                        }
+
+                                                        <input type="hidden" name="UserID" value="@currentUser.Id" />
+                                                        <input type="hidden" name="ProductID" value="@Model.ProductId" />
+                                                        <input type="hidden" name="Rating" id="Rating" value="0" />
+                                                        <input type="submit" value="Submit Comment" class="btn btn-warning" />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </dd>
+
+                            </dl>
                         </div>
                     </div>
                 </div>
@@ -425,11 +382,50 @@
 </section>
 <!-- Related Section End -->
 <script>
-    document.querySelectorAll('input[type="radio"][name="size"]').forEach(function(radio) {
-        radio.addEventListener('change', function() {
+    document.querySelectorAll('input[type="radio"][name="size"]').forEach(function (radio) {
+        radio.addEventListener('change', function () {
             var selectedSizeId = this.getAttribute('data-size-id');
             var addToCartButton = document.getElementById('addToCartButton');
             addToCartButton.setAttribute('asp-route-sizeid', selectedSizeId);
         });
     });
+    function SubmitComment() {
+        if ($("#Rating").val() == "0") {
+            alert("Please rate this service provider.");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function CRate(r) {
+        $("#Rating").val(r);
+        for (var i = 1; i <= r; i++) {
+            $("#Rate" + i).attr('class', 'starGlow');
+        }
+        // unselect remaining
+        for (var i = r + 1; i <= 5; i++) {
+            $("#Rate" + i).attr('class', 'starFade');
+        }
+    }
+
+    function CRateOver(r) {
+        for (var i = 1; i <= r; i++) {
+            $("#Rate" + i).attr('class', 'starGlow');
+        }
+    }
+
+    function CRateOut(r) {
+        for (var i = 1; i <= r; i++) {
+            $("#Rate" + i).attr('class', 'starFade');
+        }
+    }
+
+    function CRateSelected() {
+        var setRating = $("#Rating").val();
+        for (var i = 1; i <= setRating; i++) {
+            $("#Rate" + i).attr('class', 'starGlow');
+        }
+    }
 </script>
