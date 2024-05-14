@@ -28,8 +28,8 @@
             <div class="col-lg-3">
                 <div class="shop__sidebar">
                     <div class="shop__sidebar__search">
-                        <form action="#">
-                            <input type="text" placeholder="Search...">
+                        <form asp-action="Search">
+                            <input type="text" placeholder="Search..." name="value">
                             <button type="submit"><span class="icon_search"></span></button>
                         </form>
                     </div>
@@ -180,10 +180,11 @@
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="shop__product__option__right">
                                 <p>Sort by Price:</p>
-                                <select>
-                                    <option value="">Low To High</option>
-                                    <option value="">$0 - $55</option>
-                                    <option value="">$55 - $100</option>
+                                <select name="typesoft" onchange="submitForm()" id="sorting">
+                                    <option value="0">Default</option>
+                                    <option value="1">Low To High</option>
+                                    <option value="2">$0 - $55</option>
+                                    <option value="3">$55 - $100</option>
                                 </select>
                             </div>
                         </div>
@@ -196,7 +197,7 @@
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="@product.Images.FirstOrDefault(x => x.IsCover)?.UrlImage">
                                     <ul class="product__hover">
-                                        <li><a href="#"><img src="~/img/icon/heart.png" alt=""></a></li>
+                                        <li><a asp-action="AddWishList" asp-controller="WishList" asp-route-productid ="@product.ProductID"><img src="~/img/icon/heart.png" alt=""></a></li>
                                         <li>
                                             <a href="#"><img src="~/img/icon/compare.png" alt=""> <span>Compare</span></a>
                                         </li>
@@ -286,3 +287,9 @@
         console.error('Error fetching products:', error);
     });
 </script> *@
+<script>
+    function submitForm() {
+        var selectedOption = document.getElementById('sorting').value;
+        window.location.href = '/Product/Sorting?typesoft=' + selectedOption;
+    }
+</script>

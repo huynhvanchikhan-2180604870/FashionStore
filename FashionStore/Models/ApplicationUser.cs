@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 namespace FashionStore.Models
 {
@@ -7,5 +8,7 @@ namespace FashionStore.Models
         public string FullName {  get; set; }
         public string Address { get; set; }
         public IEnumerable<OrderHistories> OrderHistories { get; set; }
+        [JsonIgnore] // Add this line
+        public ICollection<WishList>? WishLists { get; set; }
     }
 }

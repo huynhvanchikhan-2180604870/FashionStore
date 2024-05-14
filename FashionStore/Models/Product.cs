@@ -18,9 +18,13 @@ namespace FashionStore.Models
         public int MaterialID { get; set; }
         public Material? Material { get; set; }
         public string? ProductDescription { get; set; }
+        [JsonIgnore] // Add this line
         public IEnumerable<ProductImage>? Images { get; set; }
 
         [JsonIgnore] // Add this line
         public ICollection<ProductDetail>? ProductDetails { get; set; }
+        [JsonIgnore] // Add this line
+        public ICollection<Comment>? Comments { get; set; }
+
     }
 }
