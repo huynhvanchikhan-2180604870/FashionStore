@@ -4,6 +4,7 @@ using FashionStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FashionStore.Migrations
 {
     [DbContext(typeof(FashionStoreDbContext))]
-    partial class FashionStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240514065323_AddModelEvent")]
+    partial class AddModelEvent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,27 +96,6 @@ namespace FashionStore.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("FashionStore.Models.Banner", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("EventID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UrlImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventID");
-
-                    b.ToTable("Banners");
                 });
 
             modelBuilder.Entity("FashionStore.Models.Brand", b =>
@@ -213,13 +195,14 @@ namespace FashionStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventID"));
 
-                    b.Property<DateTime?>("EndDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EventName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("StartDate")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("EventID");
@@ -356,9 +339,6 @@ namespace FashionStore.Migrations
 
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("MaterialID")
                         .HasColumnType("int");
@@ -636,15 +616,6 @@ namespace FashionStore.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FashionStore.Models.Banner", b =>
-                {
-                    b.HasOne("FashionStore.Models.Event", "Event")
-                        .WithMany("Banners")
-                        .HasForeignKey("EventID");
-
-                    b.Navigation("Event");
-                });
-
             modelBuilder.Entity("FashionStore.Models.Comment", b =>
                 {
                     b.HasOne("FashionStore.Models.Product", "Product")
@@ -879,8 +850,6 @@ namespace FashionStore.Migrations
 
             modelBuilder.Entity("FashionStore.Models.Event", b =>
                 {
-                    b.Navigation("Banners");
-
                     b.Navigation("ProductEvents");
                 });
 

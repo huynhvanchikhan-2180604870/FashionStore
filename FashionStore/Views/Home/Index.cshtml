@@ -1,15 +1,16 @@
-﻿@{
+﻿@model FashionStore.ModelsViews.MVProductEvent
+@{
     ViewData["Title"] = "Home Page";
+    var slide = 0;
 }
 
 <style>
-    .banner{
-        border-radius:10px;
-        cursor:pointer;
+    .banner {
+        border-radius: 10px;
+        cursor: pointer;
     }
 
     .btn-pb {
-        
         border-radius: 10px;
         display: flex;
         justify-content: center;
@@ -19,174 +20,64 @@
         margin-bottom: 40px
     }
 
-    .text
-    {
-       
+    .text {
         margin-top: 20px;
-        margin-bottom: 30px 
-      
-    } 
-    
-    
+        margin-bottom: 30px
+    }
 </style>
 
 <div class="container-fluid">
-    <div class="row mb-5">
-        <div class="col">
-            <img class="banner" src="https://routine.vn/media/amasty/webp/wysiwyg/Subbanner/NEW_ARRIVALS_jpg.webp" />
-        </div>
-
-        <div class="col">
-            <img class="banner" src="https://routine.vn/media/amasty/webp/wysiwyg/Subbanner/NEW_ARRIVALS_jpg.webp" />
-        </div>
-
-        <div class="col">
-            <img class="banner" src="https://routine.vn/media/amasty/webp/wysiwyg/Subbanner/NEW_ARRIVALS_jpg.webp" />
-        </div>
-    </div>
-    <div class="row mb-5">
-        <div class="col">
-            <img src="https://routine.vn/media/amasty/webp/wysiwyg/Polo_Premium_-_Banner_Video_jpg.webp" alt="Alternate Text" />
-        </div>
-    </div>
-    <div class="row row-cols-auto">
-        <div class="col">
-            <div class="card border-0">
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark" >Áo Polo Nam</a>  
-                    <p class="h6 pt-4" >500,000vnd</p>
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner shadow" style="border-radius:13px; width:100%; height:500px">
+            @{
+                var slideIndexInner = 0;
+            }
+            @foreach (var banner in Model.Events)
+            {
+                <div class="carousel-item @(slideIndexInner == 0 ? "active" : "")">
+                    <img class="d-block w-100" src="@(banner.Banners.FirstOrDefault()?.UrlImage ?? "")" alt="First slide">
                 </div>
-            </div>
+                slideIndexInner++;
+            }
             
         </div>
-
-        <div class="col">
-            <div class="card border-0">
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card border-0" >
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card border-0" >
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
-                </div>
-            </div>
-        </div>
-        
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-    <button class="btn btn-outline-dark btn-pb "><b>XEM THÊM</b></button>
+    
+    @foreach(var events in Model.Events)
+    {
+        <div> <h3 class="text text-center text-dark pt-4"><b>@events.EventName</b></h3> </div>
+        <div class="row row-cols-auto">
+            @foreach(var product in events.ProductEvents)
+            {
+                <div class="col shadow ms-2" style="border-radius:14px">
+                    <div class="card border-0">
+                        <img style="border-radius:15px" src="@(product.Product.Images.FirstOrDefault(x => x.ProductId == product.ProductID&&x.IsCover ==true).UrlImage)" alt="Alternate Text" />
+                        <div class="card-body">
+                            <a href="#" class="mb-3 h4 text-dark">@product.Product.ProductName</a>
+                            <p class="h6 pt-4">@product.Product.Price</p>
+                        </div>
+                    </div>
 
-    <div> <h3 class="text text-center text-dark pt-4"><b>COFFEE LOVERS</b></h3> </div>
-
-    <div class="row row-cols-auto pt-4">
-        <div class="col">
-            <div class="card border-0">
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
                 </div>
-            </div>
+            }
 
+            
         </div>
+        <form>
+            <button class="btn btn-outline-dark btn-pb " asp-action="ProductEvent" asp-controller="Product" asp-route-id="@events.EventID"><b>XEM THÊM</b></button>
+        </form>
+    }
+    
 
-        <div class="col">
-            <div class="card border-0">
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card border-0">
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card border-0">
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <button class="btn btn-outline-dark btn-pb "><b>XEM THÊM</b></button>
-
-    <div> <h3 class="text text-center text-dark pt-4"><b>ĐỒNG GIÁ</b></h3> </div>
-    <div class="row row-cols-auto pt-4">
-        <div class="col">
-            <div class="card border-0">
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col">
-            <div class="card border-0">
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card border-0">
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card border-0">
-                <img style="border-radius:15px" src="https://routine.vn/media/catalog/product/cache/d0cf4470db45e8932c69fc124d711a7e/a/o/ao-polo-nam-27-10s24pol004p_bright_white_1__1.jpg" alt="Alternate Text" />
-                <div class="card-body">
-                    <a href="#" class="mb-3 h4 text-dark">Áo Polo Nam</a>
-                    <p class="h6 pt-4">500,000vnd</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <button class="btn btn-outline-dark btn-pb "><b>XEM THÊM</b></button>
+    
 
     <div class="row pt-4 pb-5">
         <div class="col">
