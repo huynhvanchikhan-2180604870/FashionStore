@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace FashionStore.Models
 {
@@ -13,6 +14,7 @@ namespace FashionStore.Models
         // Lazy-loaded navigation property
         [JsonIgnore]
         public virtual Category? Category { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N0} VND")] // Định dạng giá tiền thành số nguyên và thêm VND
         public decimal Price { get; set; }
         public int QuantityOnHand {  get; set; }
         public int MaterialID { get; set; }
@@ -25,6 +27,13 @@ namespace FashionStore.Models
         public ICollection<ProductDetail>? ProductDetails { get; set; }
         [JsonIgnore] // Add this line
         public ICollection<Comment>? Comments { get; set; }
+        [JsonIgnore]
+        public ICollection<ProductEvent>? ProductEvents { get; set; }
 
+        public DateTime? CreateDate { get; set; }
+        public Product()
+        {
+            CreateDate = DateTime.Now;
+        }
     }
 }

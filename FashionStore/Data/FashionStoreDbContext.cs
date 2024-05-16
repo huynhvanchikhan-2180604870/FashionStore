@@ -20,9 +20,14 @@ namespace FashionStore.Data
         public DbSet<Material> Materials { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<WishList> WishList { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<ProductEvent> ProductEvents { get; set; }
+        public DbSet<Banner> Banners { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ProductEvent>()
+                .HasKey(pe => new { pe.ProductID, pe.EventID });
         }
 
 

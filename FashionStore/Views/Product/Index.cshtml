@@ -1,7 +1,10 @@
-﻿@model FashionStore.ModelsViews.MVShop
+﻿@using X.PagedList.Mvc.Core
+@model FashionStore.ModelsViews.MVShop
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int pageCount = Model.Products.PageCount;
+    int currentPage = Model.Products.PageNumber;
 }
 
 <!-- Breadcrumb Section Begin -->
@@ -214,7 +217,7 @@
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
                                     </div>
-                                    <h5>@product.Price</h5>
+                                    <h5>@String.Format("{0:N0} VND", product.Price)</h5>
                                     <div class="product__color__select">
                                         <label for="pc-4">
                                             <input type="radio" id="pc-4">
@@ -231,30 +234,44 @@
                         </div>
                     }
                 </div>
-                @if(Model.Products.Count() == 0)
+                @if (Model.Products.Count() == 0)
                 {
+
                     <div class="row" id="page" hidden>
                         <div class="col-lg-12">
                             <div class="product__pagination">
-                                <a class="active" href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <span>...</span>
-                                <a href="#">21</a>
+                                @for (int i = 1; i <= pageCount; i++)
+                                {
+                                    if (i == currentPage)
+                                    {
+                                        <a class="active" href="#">@i</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Index", "Product", new { page = i })">@i</a>
+                                    }
+                                }
                             </div>
                         </div>
                     </div>
                 }
                 else
                 {
+                   
                     <div class="row" id="page">
                         <div class="col-lg-12">
                             <div class="product__pagination">
-                                <a class="active" href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <span>...</span>
-                                <a href="#">21</a>
+                                @for (int i = 1; i <= pageCount; i++)
+                                {
+                                    if (i == currentPage)
+                                    {
+                                        <a class="active" href="#">@i</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Index", "Product", new { page = i })">@i</a>
+                                    }
+                                }
                             </div>
                         </div>
                     </div>
