@@ -2,85 +2,91 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
+
 }
+<section class="h-100 h-custom shadow" style="background-color: #8fc4b7;border-radius:15px">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-9 col-xl-7">
+                <div class="card shadow" style="border-radius:13px">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" style="border-radius:13px">
+                            @{
+                                var slideIndexInner = 0;
+                            }
+                            @foreach (var banner in Model.Banners)
+                            {
+                                <div class="carousel-item @(slideIndexInner == 0 ? "active" : "")">
+                                    <img class="d-block w-100" src="@(banner.UrlImage ?? "")" alt="First slide">
+                                </div>
+                                slideIndexInner++;
+                            }
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Fullname" class="form-control" autocomplete="fullname" aria-required="true" placeholder="NGUYEN VAN A" />
-                <label asp-for="Input.Fullname">Fullname</label>
-                <span asp-validation-for="Input.Fullname" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="phonenumber" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.PhoneNumber">PhoneNumber</label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Address" class="form-control" autocomplete="address" aria-required="true" placeholder="1st 123 Street" />
-                <label asp-for="Input.Address">Address</label>
-                <span asp-validation-for="Input.Address" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
                         </div>
-                    </form>
-                }
-            }
-        </section>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 text-uppercase text-center">Registration</h3>
+
+                        <form class="px-md-2" id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <label class="form-label" for="form3Example1q">Fullname</label>
+                                <input type="text" id="form3Example1q" asp-for="Input.Fullname" class="form-control" />
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div data-mdb-input-init class="form-outline datepicker">
+                                        <label for="exampleDatepicker1" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="exampleDatepicker1" asp-for="Input.Email" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div data-mdb-input-init class="form-outline datepicker">
+                                        <label for="exampleDatepicker1" class="form-label">Phone number</label>
+                                        <input type="text" class="form-control" id="exampleDatepicker1" asp-for="Input.PhoneNumber" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <label class="form-label" for="form3Example1q">Address</label>
+                                <input type="text" id="form3Example1q" asp-for="Input.Address" class="form-control" />
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div data-mdb-input-init class="form-outline datepicker">
+                                        <label for="exampleDatepicker1" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="exampleDatepicker1" asp-for="Input.Password" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div data-mdb-input-init class="form-outline datepicker">
+                                        <label for="exampleDatepicker1" class="form-label">Confirm Password</label>
+                                        <input type="password" class="form-control" id="exampleDatepicker1" asp-for="Input.ConfirmPassword" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button id="registerSubmit" type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-success btn-lg mb-1">Submit</button>
+                                <p class="text-center text-muted mt-5 mb-0">
+                                    Have already an account? <a asp-area="Identity" asp-page="/Account/Login"
+                                                                class="fw-bold text-body"><u>Login here</u></a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div> 
-
-
-
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

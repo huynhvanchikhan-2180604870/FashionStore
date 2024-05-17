@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using FashionStore.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace FashionStore.Areas.Identity.Pages.Account
 {
@@ -22,11 +24,12 @@ namespace FashionStore.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        private readonly FashionStoreDbContext _context;
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, FashionStoreDbContext context)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         /// <summary>
@@ -35,7 +38,7 @@ namespace FashionStore.Areas.Identity.Pages.Account
         /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
-
+        public IEnumerable<Banner> Banners { get; set; }
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -91,7 +94,7 @@ namespace FashionStore.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-
+            Banners = await _context.Banners.ToListAsync();
             returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
