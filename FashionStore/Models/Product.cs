@@ -15,7 +15,7 @@ namespace FashionStore.Models
         [JsonIgnore]
         public virtual Category? Category { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0} VND")] // Định dạng giá tiền thành số nguyên và thêm VND
-        public decimal Price { get; set; }
+        public int Price { get; set; }
         public int QuantityOnHand {  get; set; }
         public int MaterialID { get; set; }
         public Material? Material { get; set; }

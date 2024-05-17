@@ -36,8 +36,8 @@ namespace FashionStore.Controllers
             
             return View(cart);
         }
-
-        public async Task<IActionResult> AddToCart(string id, int quantity, int sizeid)
+        [HttpPost]
+        public async Task<IActionResult> AddToCart(string id, int quantity, int size)
         {
             var product = await _context.Products
                 .Include(p => p.ProductDetails)
@@ -50,7 +50,7 @@ namespace FashionStore.Controllers
             var productdetails = await _context.ProductDetails
                 .Include(x => x.Size)
                 .Include(x => x.Product)
-                .FirstOrDefaultAsync(x => x.ProductID == id && x.SizeID == sizeid);
+                .FirstOrDefaultAsync(x => x.ProductID == id && x.SizeID == size);
             if (productdetails == null)
             {
                 return NotFound();
@@ -61,7 +61,7 @@ namespace FashionStore.Controllers
                 Product = product,
                 Quantity = quantity,
                 Price = product.Price * quantity,
-                SizeID = sizeid,
+                SizeID = size,
                 Size = productdetails.Size,
                 Images = images
             };
