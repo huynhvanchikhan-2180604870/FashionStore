@@ -43,7 +43,7 @@ namespace FashionStore.Areas.Admin.Controllers
                 _dbContext.Products.Add(product);
                 await _dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Display", "Products", new {id = product.ProductID});
         }
 
         public async Task<IActionResult>Display(string id)

@@ -32,7 +32,7 @@ namespace FashionStore.Areas.Admin.Controllers
                 _dbContext.ProductImages.Add(image);
                 await _dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("Index", "Products");
+            return RedirectToAction("Add", "ProductImage", new {id = image.ProductId });
         }
     }
 }
