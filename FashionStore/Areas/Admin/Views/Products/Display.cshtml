@@ -5,6 +5,7 @@
 }
 
 <div>
+    <a class="btn btn-outline-success" asp-action="Index" asp-controller="Products">Trở về trang thêm sản phẩm</a>
     
 </div>
 
@@ -28,12 +29,11 @@
                 <td>@details.Size.SizeName</td>
                 <td>
                     <a asp-action="Add" asp-controller="ProductDetail" asp-route-id="@details.Product.ProductID" class="btn btn-outline-success">Add Detail</a>
+                    <a class="btn btn-outline-success" asp-action="Add" asp-controller="ProductImage" asp-route-id="@details.ProductID">Thêm hình ảnh sản phẩm</a>
                 </td>
             </tr>
         }
     </tbody>
-    <div>
-        <a asp-action="Index" asp-controller="Products">Back to list</a>
-    </div>
+    
 </table>
 

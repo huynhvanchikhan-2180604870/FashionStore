@@ -59,7 +59,7 @@ namespace FashionStore.Areas.Admin.Controllers
                 // Save changes to the database
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index", "Products");
+                return RedirectToAction("Display", "Products", new {id = product.ProductID});
             }
             catch (Exception ex)
             {
