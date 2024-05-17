@@ -22,6 +22,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using FashionStore.Data;
 
 namespace FashionStore.Areas.Identity.Pages.Account
 {
@@ -34,7 +35,9 @@ namespace FashionStore.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly FashionStoreDbContext _context;
         public RegisterModel(
+            FashionStoreDbContext context,
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
@@ -42,6 +45,7 @@ namespace FashionStore.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
             _userStore = userStore;
@@ -57,6 +61,8 @@ namespace FashionStore.Areas.Identity.Pages.Account
         /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
+
+        public IEnumerable<Banner> Banners { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -120,6 +126,8 @@ namespace FashionStore.Areas.Identity.Pages.Account
 
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
+
+           
         }
 
 
@@ -141,6 +149,7 @@ namespace FashionStore.Areas.Identity.Pages.Account
                     Value = i
                 })
             };
+            Banners = await _context.Banners.ToListAsync();
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
