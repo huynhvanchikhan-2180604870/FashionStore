@@ -106,44 +106,38 @@
                             <i class="fa fa-star-o"></i>
                             <span> - 5 Reviews</span>
                         </div>
-                        <h3>@Model.Product.Price</h3>
+                        <h3>@String.Format("{0:N0} VND", Model.Product.Price)</h3>
                         <p>
                             @Model.Product.ProductDescription
                         </p>
-                        <form method="post">
+                        <form method="post" >
                             <div class="product__details__option">
                                 <div class="product__details__option__size">
                                     <span>Size:</span>
                                     @foreach (var size in Model.ProductDetails)
                                     {
-                                        <label asp-for="@Model.SizeID">
+                                        <label>
                                             @size.Size.SizeName
-                                            <input type="radio" value="@size.SizeID" asp-for="@Model.SizeID">
+                                            <input type="radio" value="@size.SizeID" name="size" data-size-id="@size.SizeID">
                                         </label>
                                     }
-
                                 </div>
                                 <div class="product__details__option__color">
                                     <span>
                                         Quantity On Hand:
-                                        <strong>  @Model.Product.QuantityOnHand</strong>
+                                        <strong>@Model.Product.QuantityOnHand</strong>
                                     </span>
-
-                                    <p></p>
                                 </div>
                             </div>
                             <div class="product__details__cart__option">
-
                                 <div class="quantity">
                                     <div class="pro-qty">
-                                        <input type="text" asp-for="@Model.Quantity">
+                                        <input type="text" asp-for="@Model.Quantity" name="quantity">
                                     </div>
                                 </div>
-
-                                <button type="submit" class="primary-btn"
-                                        asp-action="AddToCart" asp-controller="Shopping"
-                                        asp-route-id="@Model.ProductId" asp-route-quantity="@Model.Quantity" asp-route-sizeid="@Model.SizeID">
-                                    add to cart
+                                <button type="submit" class="primary-btn" id="addToCartButton" asp-action="AddToCart" asp-controller="Shopping"
+                                        asp-route-id="@Model.ProductId" asp-route-quantity="@Model.Quantity" asp-route-sizeid="">
+                                    Add to Cart
                                 </button>
                             </div>
                         </form>
@@ -392,7 +386,6 @@
             var addToCartButton = document.getElementById('addToCartButton');
             addToCartButton.setAttribute('asp-route-sizeid', selectedSizeId);
         });
-    });
     function SubmitComment() {
         if ($("#Rating").val() == "0") {
             alert("Please rate this service provider.");
