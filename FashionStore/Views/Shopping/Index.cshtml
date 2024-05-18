@@ -51,7 +51,7 @@
                                         </div>
                                         <div class="product__cart__item__text">
                                             <h6>@cart.Product.ProductName</h6>
-                                            <h5>@cart.Product.Price</h5>
+                                            <h5>@String.Format("{0:N0} VND", cart.Product.Price)</h5>
                                         </div>
                                     </td>
                                     <td class="quantity__item">
@@ -61,7 +61,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="cart__price">@(cart.Product.Price * cart.Quantity)</td>
+                                    <td class="cart__price">@String.Format("{0:N0} VND", cart.Product.Price * cart.Quantity)</td>
                                     <td class="cart__close">
                                         <a asp-action="RemoveItem" asp-route-id="@cart.ProductId">
                                             <i class="fa fa-close"></i>
@@ -97,8 +97,8 @@
                 <div class="cart__total">
                     <h6>Cart total</h6>
                     <ul>
-                        <li>Subtotal <span>@Model.Items.Sum(x=> x.Product.Price * x.Quantity)</span></li>
-                        <li>Total <span>@Model.Items.Sum(x => x.Product.Price * x.Quantity)</span></li>
+                        <li>Subtotal <span>@String.Format("{0:N0} VND", Model.Items.Sum(x => x.Product.Price * x.Quantity))</span></li>
+                        <li>Total <span>@String.Format("{0:N0} VND", Model.Items.Sum(x => x.Product.Price * x.Quantity))</span></li>
                     </ul>
                     <a asp-action="Checkout" class="primary-btn">Proceed to checkout</a>
                 </div>

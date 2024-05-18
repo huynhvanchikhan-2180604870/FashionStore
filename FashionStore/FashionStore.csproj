@@ -26,4 +26,46 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\admin\assets\.DS_Store" />
+    <None Include="wwwroot\admin\assets\css\.DS_Store" />
+    <None Include="wwwroot\admin\assets\css\bootstrap\.DS_Store" />
+    <None Include="wwwroot\admin\assets\css\bootstrap\tests\.DS_Store" />
+    <None Include="wwwroot\admin\assets\fonts\.DS_Store" />
+    <None Include="wwwroot\admin\assets\fonts\bootstrap\.DS_Store" />
+    <None Include="wwwroot\admin\assets\images\.DS_Store" />
+    <None Include="wwwroot\admin\assets\images\cards\.DS_Store" />
+    <None Include="wwwroot\admin\assets\images\flags\.DS_Store" />
+    <None Include="wwwroot\admin\assets\images\food\.DS_Store" />
+    <None Include="wwwroot\admin\assets\js\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\custom\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\custom\analytics\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\custom\crm\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\custom\ecommerce\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\custom\sales\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\custom\tasks\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\examples\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\examples\area\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\examples\candlestick\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\examples\column\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\apex\examples\pie\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\bs-select\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\calendar\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\calendar\css\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\circliful\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\datatables\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\datatables\custom\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\jvectormap\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\jvectormap\custom\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\megamenu\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\megamenu\js\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\morris\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\morris\custom\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\overlay-scroll\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\particles\.DS_Store" />
+    <None Include="wwwroot\admin\assets\vendor\summernote\.DS_Store" />
+  </ItemGroup>
+
 </Project>

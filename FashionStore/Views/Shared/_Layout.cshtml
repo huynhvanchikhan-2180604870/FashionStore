@@ -168,7 +168,7 @@
             <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
             <a href="#"><img src="img/icon/heart.png" alt=""></a>
             <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
+            <div class="price">@String.Format("{0:N0} VND", cart.Items.Sum(x => x.Price))</div>
             <div class="offcanvas__top__hover">
                 <span> <img src="~/img/icon/user-regular.svg" /></span>
                 <ul>
@@ -217,7 +217,7 @@
                         <a href="#" class="search-switch d-inline-block"><img src="img/icon/search.png" alt=""></a>
                         <a asp-action="Index" asp-controller="WishList" class="d-inline-block"><img src="~/img/icon/heart.png" alt=""></a>
                         <a asp-action="Index" asp-controller="Shopping" asp-area="default" class="d-inline-block"><img src="~/img/icon/cart.png" alt=""> <span>0</span></a>
-                        <div class="price d-inline-block">$@cart.Items.Sum(x=>x.Price)</div>
+                        <div class="price d-inline-block">@String.Format("{0:N0} VND", cart.Items.Sum(x => x.Price))</div>
                         <div class="ms-2 d-inline-block">
                             <div class="nav-item dropdown">
                                 <a href="#" class="dropdown-toggle nav-link text-dark d-inline-block" style="font-size: 12px" data-bs-toggle="dropdown">

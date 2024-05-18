@@ -127,7 +127,7 @@
                             <ul class="checkout__total__products">
                                 @foreach(var item in Model.ShoppingCart.Items)
                                 {
-                                    <li>@item.Product.ProductName <span>@(item.Product.Price * item.Quantity)</span></li>
+                                    <li>@item.Product.ProductName <span>@String.Format("{0:N0} VND", item.Product.Price * item.Quantity)</span></li>
                                 }
                                 @* <li>  <span>$ 300.0</span></li>
                                 <li>02. German chocolate <span>$ 170.0</span></li>
@@ -135,8 +135,8 @@
                                 <li>04. Cluten free mini dozen <span>$ 110.0</span></li> *@
                             </ul>
                             <ul class="checkout__total__all">
-                                <li>Subtotal <span>@Model.ShoppingCart.Items.Sum(x=>x.Product.Price * x.Quantity)</span></li>
-                                <li>Total <span>@Model.ShoppingCart.Items.Sum(x => x.Product.Price * x.Quantity)</span></li>
+                                <li>Subtotal <span>@String.Format("{0:N0} VND", Model.ShoppingCart.Items.Sum(x => x.Product.Price * x.Quantity))</span></li>
+                                <li>Total <span>@String.Format("{0:N0} VND", Model.ShoppingCart.Items.Sum(x => x.Product.Price * x.Quantity))</span></li>
                             </ul>
                             
                                 <button class="Btn mb-2 ms-auto me-auto text-center" type="submit" name="payment" value="VNPAY">
