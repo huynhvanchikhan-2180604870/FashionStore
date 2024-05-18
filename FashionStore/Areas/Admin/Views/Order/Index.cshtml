@@ -1,8 +1,10 @@
 ﻿@using FashionStore.HelperClass
-@model IEnumerable<FashionStore.Models.Order>
+@model X.PagedList.IPagedList<FashionStore.Models.Order>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+	int pageCount = Model.PageCount;
+	int currentPage = Model.PageNumber;
 }
 
 <!-- Page header starts -->
@@ -34,6 +36,7 @@
 										<th>Payment Type</th>
 										<th>Payment Status</th>
 										<th>Order Status</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -101,6 +104,9 @@
 													}
 
 												</td>
+												<td>
+													<a asp-action="UpdateStatus" asp-controller="Order" asp-area="Admin" asp-route-id="@order.OrderID" class="btn btn-outline-primary">Update Status</a>
+												</td>
 											</tr>
 										}
 										
@@ -109,6 +115,23 @@
 									
 								</tbody>
 							</table>
+							<div class="row text-center" id="page">
+								<div class="col-lg-12">
+									<div class="product__pagination">
+										@for (int i = 1; i <= pageCount; i++)
+										{
+											if (i == currentPage)
+											{
+												<a class="active btn btn-outline-success" href="#">@i</a>
+											}
+											else
+											{
+												<a href="@Url.Action("Index", "Order",new { page = i })" class="btn btn-outline-success">@i</a>
+											}
+										}
+									</div>
+								</div>
+							</div>
 						</div>
 
 					</div>
@@ -127,10 +150,4 @@
 
 </div>
 <!-- Content wrapper scroll end -->
-			</div>
-<!-- *************
-	************ Main container end *************
-************* -->
-		</div>
-<!-- Page wrapper end -->
 

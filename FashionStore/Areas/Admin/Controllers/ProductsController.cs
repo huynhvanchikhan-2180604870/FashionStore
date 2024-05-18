@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace FashionStore.Areas.Admin.Controllers
 {
@@ -16,12 +17,14 @@ namespace FashionStore.Areas.Admin.Controllers
         {
             _dbContext = dbContext;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
+            page = page < 1 ? 1 : page;
+            int pagesize = 20;
             var products = await _dbContext.Products
                 .Include(cate=>cate.Category)
                 .Include(material => material.Material)
-                .ToListAsync();
+                .ToPagedListAsync(page, pagesize);
             return View(products);
         }
 

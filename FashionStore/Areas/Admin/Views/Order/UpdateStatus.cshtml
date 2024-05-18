@@ -1,0 +1,69 @@
+﻿@model FashionStore.Models.Order
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Style {
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,900&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-md  modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius:20px">
+            <div class="modal-body py-0 text-center pt-4 pb-4 ps-5 ms-4">
+                <form asp-action="UpdateStatus" method="post">
+                    <div class="form-group">
+                        <label asp-for="OrderID" class="control-label">Order ID:</label>
+                        <input asp-for="OrderID" value="@Model.OrderID" class="form-control" readonly />
+                        <span asp-validation-for="OrderID" class="text-danger"></span>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label">Status:</label>
+                        <select asp-for="Status" asp-items="ViewBag.Status" class="form-control" multiple></select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/shop/modal/js/jquery-3.3.1.min.js"></script>
+    <script src="~/shop/modal/js/popper.min.js"></script>
+    <script src="~/shop/modal/js/bootstrap.min.js"></script>
+    <script src="~/shop/modal/js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#exampleModalCenter').modal('show');
+        });
+        $('#goToAdminPage').click(function () {
+            window.location.href = '@Url.Action("Index", "Home", new { area = "admin" })';
+        });
+
+        const id = document.getElementById("id-select-size")
+        console.log(id.value)
+    </script>
+}
+

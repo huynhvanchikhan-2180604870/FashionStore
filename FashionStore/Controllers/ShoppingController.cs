@@ -118,7 +118,7 @@ namespace FashionStore.Controllers
             }
 
             order.UserID = user.Id;
-            order.OrderDate = DateTime.UtcNow;
+            order.OrderDate = DateTime.Now;
             order.Status = OrderStatus.PROCESSING;
             order.PaymentType = PaymentType.COD;
             order.IsPayment = PaymentStatus.AWAITING;
@@ -127,6 +127,8 @@ namespace FashionStore.Controllers
                 ProductID = i.ProductId,
                 Quantity = (int)i.Quantity,
                 Price = (decimal)i.Price,
+                
+                SizeID = i.SizeID
             }).ToList();
 			foreach (var item in cart.Items)
 			{
@@ -142,7 +144,7 @@ namespace FashionStore.Controllers
 			_context.Orders.Add(order);
             await _context.SaveChangesAsync();
             HttpContext.Session.Remove("Cart");
-            return View("OrderCompleted");
+            return RedirectToAction("OrderCompleted");
         }
         #region paypal
         [HttpPost("/Shopping/create-paypal-order")]
@@ -191,6 +193,8 @@ namespace FashionStore.Controllers
                     ProductID = i.ProductId,
                     Quantity = (int)i.Quantity,
                     Price = (decimal) i.Price,
+                    
+                    SizeID = i.SizeID
                 }).ToList();
                 foreach (var item in cart.Items)
                 {
@@ -216,10 +220,29 @@ namespace FashionStore.Controllers
         }
         #endregion
 
-        public IActionResult OrderCompleted()
+        public async Task<IActionResult> OrderCompleted()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            var order = await _context.Orders
+                .Include(x => x.User)
+                .Include(x => x.Details)
+                    .ThenInclude(x => x.Product)
+                    .ThenInclude(x => x.Images)
+                .Include(x => x.Details)
+                    .ThenInclude(x => x.Product)
+                    .ThenInclude(x => x.ProductDetails)
+                    .ThenInclude(x => x.Size)
+                .OrderByDescending(x => x.OrderDate)
+                .FirstOrDefaultAsync(x => x.UserID == user.Id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
         }
+
 
         [Authorize]
         public IActionResult PaymentFail()
@@ -237,7 +260,7 @@ namespace FashionStore.Controllers
                 TempData["Message"] = "Lỗi thanh toán VNPAY:{ response.VnPayResponseCode}";
                 return RedirectToAction("PaymentFail");
             }
-
+            var orderid = 0;
             var user = await _userManager.GetUserAsync(User);
             try
             {
@@ -249,11 +272,14 @@ namespace FashionStore.Controllers
                     IsPayment = PaymentStatus.PAID,
                     Status = OrderStatus.PROCESSING
                 };
+                orderid = order.OrderID;
                 order.Details = cart.Items.Select(i => new OrderDetail
                 {
                     ProductID = i.ProductId,
                     Quantity = (int) i.Quantity,
                     Price = (decimal)i.Price,
+                   
+                    SizeID = i.SizeID
                 }).ToList();
 
                 foreach(var item in cart.Items)

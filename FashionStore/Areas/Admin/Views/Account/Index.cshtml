@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!-- Page header starts -->
+<!-- Page header ends -->
+<!-- Content wrapper scroll start -->
+<div class="content-wrapper-scroll">
+    <!-- Content wrapper start -->
+    <div class="content-wrapper">
+
+        <!-- Row start -->
+        <div class="row">
+            <div class="col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Role User</div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table v-middle">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">UserName</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Select Role</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <form asp-controller="Account" asp-action="UpdateUserRole" method="post">
+                                            <td class="align-middle">@item.UserName</td>
+                                            <td class="align-middle">@item.Name</td>
+                                            <td class="align-middle" style="text-align: right;">
+                                                
+                                                <input type="hidden" name="userId" value="@item.UserId" />
+                                                <div class="form-floating mb-3">
+                                                    <select name="roleId" class="form-select border-0" aria-required="true" placeholder="password">
+                                                        <option disabled selected>Select Role</option>
+                                                            @foreach (var role in ViewBag.Role)
+                                                            {
+                                                            <option value="@role.Value">@role.Text</option>
+                                                            }
+                                                    </select>
+                                                    
+                                                </div>
+                                               
+
+                                            </td>
+                                            <td>
+                                                <button type="submit" class="btn btn-info btn-lg">Update</button>
+                                            </td>
+                                            </form>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row end -->
+
+    </div>
+    <!-- Content wrapper end -->
+    <!-- App Footer start -->
+    <div class="app-footer">
+        <span>© Bootstrap Gallery 2023</span>
+    </div>
+    <!-- App footer end -->
+
+</div>
+<!-- Content wrapper scroll end -->
