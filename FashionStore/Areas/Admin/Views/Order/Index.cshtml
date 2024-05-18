@@ -1,0 +1,136 @@
+﻿@using FashionStore.HelperClass
+@model IEnumerable<FashionStore.Models.Order>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Page header starts -->
+
+<!-- Page header ends -->
+<!-- Content wrapper scroll start -->
+<div class="content-wrapper-scroll">
+	<!-- Content wrapper start -->
+	<div class="content-wrapper">
+
+		<!-- Row start -->
+		<div class="row">
+			<div class="col-sm-12 col-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">Order History</div>
+					</div>
+					<div class="card-body">
+
+						<div class="table-responsive">
+							<table class="table v-middle">
+								<thead>
+									<tr>
+										<th>Customer</th>
+										<th>Product</th>
+										<th>User ID</th>
+										<th>Ordered Placed</th>
+										<th>Amount</th>
+										<th>Payment Type</th>
+										<th>Payment Status</th>
+										<th>Order Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach(var order in Model)
+									{
+										foreach(var detail in order.Details)
+										{
+											<tr>
+												<td>
+													<div class="media-box">
+														<div class="media-box-body">
+															<div class="text-truncate">@order.User.FullName</div>
+														</div>
+													</div>
+												</td>
+												<td>
+													<div class="media-box">
+														@if (detail.Product.Images.Any(x => x.IsCover))
+														{
+															var coverImage = detail.Product.Images.First(x => x.IsCover);
+															<img src="@coverImage.UrlImage" class="media-avatar" alt="Admin Themes">
+															
+														}
+														<div class="media-box-body">
+															<div class="text-truncate">@detail.Product.ProductName</div>
+														</div>
+													</div>
+												</td>
+												<td>@order.UserID</td>
+												<td>@order.OrderDate</td>
+												<td>@String.Format("{0:N0} VND", detail.Price * detail.Quantity)</td>
+												<td>@order.PaymentType</td>
+												<td>
+													@if(order.IsPayment == PaymentStatus.PAID)
+													{
+														<span class="text-green">
+															<i class="bi bi-check-circle-fill"></i> Paid
+														</span>
+													}
+													else if (order.IsPayment == PaymentStatus.FAILED)
+													{
+														<span class="text-red">
+															<i class="bi bi-check-circle-fill"></i> Failed
+														</span>
+													}
+													else
+													{
+														<span class="text-blue">
+															<i class="bi bi-check-circle-fill"></i> Awaiting
+														</span>
+													}
+												</td>
+												<td>
+													@if (order.Status == OrderStatus.DELIVERED)
+													{
+														<span class="badge shade-green min-90">Delivered</span>
+													}
+													else if (order.Status == OrderStatus.CANCELLED)
+													{
+														<span class="badge shade-red min-90">Cancelled</span>
+													}
+													else
+													{
+														<span class="badge shade-blue min-90">Processing</span>
+													}
+
+												</td>
+											</tr>
+										}
+										
+									}
+									
+									
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Row end -->
+
+	</div>
+	<!-- Content wrapper end -->
+	<!-- App Footer start -->
+	<div class="app-footer">
+		<span>© Bootstrap Gallery 2023</span>
+	</div>
+	<!-- App footer end -->
+
+</div>
+<!-- Content wrapper scroll end -->
+			</div>
+<!-- *************
+	************ Main container end *************
+************* -->
+		</div>
+<!-- Page wrapper end -->
+

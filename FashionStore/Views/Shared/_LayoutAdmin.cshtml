@@ -1,144 +1,269 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FashionStore</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/FashionStore.styles.css" asp-append-version="true" />
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-          rel="stylesheet">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="~/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/style.css" type="text/css">
-    @RenderSection("Style", required: false)
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Meta -->
+	<meta name="description" content="Melon - Responsive Bootstrap 5 Dashboard Template">
+	<meta name="author" content="Bootstrap Gallery" />
+	<link rel="canonical" href="https://www.bootstrap.gallery/">
+	<meta property="og:url" content="https://www.bootstrap.gallery">
+	<meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
+	<meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+	<meta property="og:type" content="Website">
+	<meta property="og:site_name" content="Bootstrap Gallery">
+	<link rel="shortcut icon" href="assets/images/favicon.svg">
+
+	<!-- Title -->
+	<title>Melon Admin Template - Admin Dashboard</title>
+
+
+	<!-- *************
+		************ Common Css Files *************
+	************ -->
+	<!-- Animated css -->
+	<link rel="stylesheet" href="~/admin/assets/css/animate.css">
+
+	<!-- Bootstrap font icons css -->
+	<link rel="stylesheet" href="~/admin/assets/fonts/bootstrap/bootstrap-icons.css">
+
+	<!-- Main css -->
+	<link rel="stylesheet" href="~/admin/assets/css/main.min.css">
+
+
+	<!-- *************
+		************ Vendor Css Files *************
+	************ -->
+	<!-- Scrollbar CSS -->
+	<link rel="stylesheet" href="~/admin/assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
+	@RenderSection("Style", required: false)
 </head>
+
 <body>
 
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <partial name="_LoginPartial" />
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-            
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-        </div>
-    </div>
-    <!-- Offcanvas Menu End -->
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-5 ">
-                        <div class="header__top__right">
-                            <div class="header__top__links text-dark">
-                                @* <partial name="_LoginPartial" /> *@
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Area"].ToString() == "Admin" ? "active" : "")">
-                                <a asp-action="Index" asp-controller="Home" asp-area="Admin">Dashboard</a>
-                            </li>
-                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Products" && ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Area"].ToString() == "Admin" ? "active" : "")">
-                                <a asp-action="Index" asp-controller="Products" asp-area="Admin">Product</a>
-                            </li>
-                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "AnyOfProduct" && ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Area"].ToString() == "Admin" ? "active" : "")">
-                                <a asp-action="Index" asp-controller="AnyOfProduct" asp-area="Admin">Any</a>
-                            </li>
-                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Accounts" && ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Area"].ToString() == "Admin" ? "active" : "")">
-                                <a asp-action="Index" asp-controller="Accounts" asp-area="Admin">Account</a>
-                            </li>
-                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Orders" && ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Area"].ToString() == "Admin" ? "active" : "")">
-                                <a asp-action="Index" asp-controller="Orders" asp-area="Admin">Orders</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+	<!-- Page wrapper start -->
+	<div class="page-wrapper">
 
-                
-            </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
-        </div>
-       
-    </header>
-    <!-- Header Section End -->
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+		<!-- Sidebar wrapper start -->
+		<nav class="sidebar-wrapper">
 
-    
-    <!-- Js Plugins -->
-    <script src="~/js/jquery-3.3.1.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/jquery.nice-select.min.js"></script>
-    <script src="~/js/jquery.nicescroll.min.js"></script>
-    <script src="~/js/jquery.magnific-popup.min.js"></script>
-    <script src="~/js/jquery.countdown.min.js"></script>
-    <script src="~/js/jquery.slicknav.js"></script>
-    <script src="~/js/mixitup.min.js"></script>
-    <script src="~/js/owl.carousel.min.js"></script>
-    <script src="~/js/main.js"></script>
-    <script>
-        // Đợi cho trang tải xong
-        document.addEventListener("DOMContentLoaded", function () {
-            // Lấy tất cả các mục menu
-            var menuItems = document.querySelectorAll('.header__menu ul li');
+			<!-- Sidebar brand starts -->
+			<div class="sidebar-brand">
+				<a href="index.html" class="logo">
+					<img src="assets/images/logo.svg" alt="Melon Admin Dashboard" />
+				</a>
+			</div>
+			<!-- Sidebar brand starts -->
+			<!-- Sidebar menu starts -->
+			<div class="sidebar-menu">
+				<div class="sidebarMenuScroll">
+					<ul>
+						<li class="sidebar-dropdown active">
+							<a asp-action="Index" asp-controller="Home" asp-area="admin">
+								<i class="bi bi-house"></i>
+								<span class="menu-text">Dashboards</span>
+							</a>
 
-            // Lặp qua từng mục menu
-            menuItems.forEach(function (item) {
-                // Lắng nghe sự kiện click trên mỗi mục menu
-                item.addEventListener('click', function () {
-                    // Xóa lớp 'active' khỏi tất cả các mục menu
-                    menuItems.forEach(function (menuItem) {
-                        menuItem.classList.remove('active');
-                    });
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="#">
+								<i class="bi bi-handbag"></i>
+								<span class="menu-text">Product</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li>
+										<a asp-action="Index" asp-controller="Order" asp-area="admin">Order History</a>
+									</li>
+									<li>
+										<a asp-action="Index" asp-controller="Products" asp-area="admin">Products</a>
+									</li>
+								</ul>
+							</div>
+						</li>
 
-                    // Thêm lớp 'active' vào mục menu đang được chọn
-                    item.classList.add('active');
-                });
-            });
-        });
-    </script>
+						<li class="sidebar-dropdown">
+							<a href="#">
+								<i class="bi bi-people"></i>
+								<span class="menu-text">Users</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li>
+										<a asp-action="Index" asp-controller="Account" asp-area="admin">List</a>
+									</li>
+									<li>
+										<a asp-action="RoleUser" asp-controller="Account" asp-area="admin">Role User</a>
+									</li>
+								</ul>
+							</div>
+						</li>
 
-    @await RenderSectionAsync("Scripts", required: false)
+					</ul>
+				</div>
+			</div>
+			<!-- Sidebar menu ends -->
+
+		</nav>
+		<!-- Sidebar wrapper end -->
+		<!-- *************
+			************ Main container start *************
+		************* -->
+		<div class="main-container">
+
+			<!-- Page header starts -->
+			<div class="page-header">
+
+				<div class="toggle-sidebar" id="toggle-sidebar"><i class="bi bi-list"></i></div>
+
+				<!-- Breadcrumb start -->
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<i class="bi bi-house"></i>
+						<a href="index.html">Home</a>
+					</li>
+					<li class="breadcrumb-item breadcrumb-active" aria-current="page">Dashboard</li>
+				</ol>
+				<!-- Breadcrumb end -->
+				<!-- Header actions ccontainer start -->
+				<div class="header-actions-container">
+
+					<!-- Search container start -->
+					<div class="search-container">
+
+						<!-- Search input group start -->
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search anything">
+							<button class="btn" type="button">
+								<i class="bi bi-search"></i>
+							</button>
+						</div>
+						<!-- Search input group end -->
+
+					</div>
+					<!-- Search container end -->
+					<!-- Leads start -->
+					<a href="orders.html" class="leads d-none d-xl-flex">
+						<div class="lead-details">You have <span class="count"> 21 </span> new leads </div>
+						<span class="lead-icon">
+							<i class="bi bi-bell-fill animate__animated animate__swing animate__infinite infinite"></i><b class="dot animate__animated animate__heartBeat animate__infinite"></b>
+						</span>
+					</a>
+					<!-- Leads end -->
+					<!-- Header actions start -->
+					<ul class="header-actions">
+						<li class="dropdown d-none d-md-block">
+							<a href="#" id="countries" data-toggle="dropdown" aria-haspopup="true">
+								<img src="assets/images/flags/1x1/br.svg" class="flag-img" alt="Admin Panels" />
+							</a>
+							<div class="dropdown-menu dropdown-menu-end mini" aria-labelledby="countries">
+								<div class="country-container">
+									<a href="index.html">
+										<img src="assets/images/flags/1x1/us.svg" alt="Clean Admin Dashboards" />
+									</a>
+									<a href="index.html">
+										<img src="assets/images/flags/1x1/in.svg" alt="Google Dashboards" />
+									</a>
+									<a href="index.html">
+										<img src="assets/images/flags/1x1/gb.svg" alt="AI Admin Dashboards" />
+									</a>
+									<a href="index.html">
+										<img src="assets/images/flags/1x1/tr.svg" alt="Modern Dashboards" />
+									</a>
+									<a href="index.html">
+										<img src="assets/images/flags/1x1/ca.svg" alt="Best Admin Dashboards" />
+									</a>
+								</div>
+							</div>
+						</li>
+						<li class="dropdown">
+							<a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
+								<span class="user-name d-none d-md-block">Abigale Heaney</span>
+								<span class="avatar">
+									<img src="assets/images/user.png" alt="Admin Templates">
+									<span class="status online"></span>
+								</span>
+							</a>
+							<div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
+								<div class="header-profile-actions">
+									<a href="profile.html">Profile</a>
+									<a href="account-settings.html">Settings</a>
+									<a href="login.html">Logout</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<!-- Header actions end -->
+
+				</div>
+				<!-- Header actions ccontainer end -->
+
+			</div>
+			<!-- Page header ends -->
+			<!-- Content wrapper scroll start -->
+			<div class="container" id="main">
+				<main role="main" class="pb-3">
+					@RenderBody()
+				</main>
+			</div>
+			<!-- App Footer start -->
+			<div class="app-footer">
+				<span>© Melon admin 2023</span>
+			</div>
+			<!-- App footer end -->
+
+		</div>
+		<!-- Content wrapper scroll end -->
+
+	</div>
+	<!-- *************
+		************ Main container end *************
+	************* -->
+	</div>
+	<!-- Page wrapper end -->
+	<!-- *************
+		************ Required JavaScript Files *************
+	************* -->
+	<!-- Required jQuery first, then Bootstrap Bundle JS -->
+	<script src="~/admin/assets/js/jquery.min.js"></script>
+	<script src="~/admin/assets/js/bootstrap.bundle.min.js"></script>
+	<script src="~/admin/assets/js/modernizr.js"></script>
+	<script src="~/admin/assets/js/moment.js"></script>
+
+	<!-- *************
+		************ Vendor Js Files *************
+	************* -->
+	<!-- Overlay Scroll JS -->
+	<script src="~/admin/assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+	<script src="~/admin/assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+	<!-- Apex Charts -->
+	<script src="~/admin/assets/vendor/apex/apexcharts.min.js"></script>
+	<script src="~/admin/assets/vendor/apex/custom/analytics/byChannel.js"></script>
+	<script src="~/admin/assets/vendor/apex/custom/analytics/byCountry.js"></script>
+	<script src="~/admin/assets/vendor/apex/custom/analytics/byDevice.js"></script>
+	<script src="~/admin/assets/vendor/apex/custom/analytics/orders.js"></script>
+	<script src="~/admin/assets/vendor/apex/custom/analytics/results.js"></script>
+	<script src="~/admin/assets/vendor/apex/custom/analytics/visitors.js"></script>
+	<script src="~/admin/assets/vendor/apex/custom/analytics/demography.js"></script>
+	<script src="~/admin/assets/vendor/apex/custom/analytics/deals.js"></script>
+
+	<!-- Vector Maps -->
+	<script src="~/admin/assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+	<script src="~/admin/assets/vendor/jvectormap/world-mill-en.js"></script>
+	<script src="~/admin/assets/vendor/jvectormap/gdp-data.js"></script>
+	<script src="~/admin/assets/vendor/jvectormap/custom/world-map-markers.js"></script>
+
+	<!-- Circleful -->
+	<script src="~/admin/assets/vendor/circliful/circliful.min.js"></script>
+	<script src="~/admin/assets/vendor/circliful/circliful.custom.js"></script>
+
+	<!-- Main Js Required -->
+	<script src="~/admin/assets/js/main.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

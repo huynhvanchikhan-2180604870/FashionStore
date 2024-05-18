@@ -119,17 +119,27 @@ namespace FashionStore.Controllers
 
             order.UserID = user.Id;
             order.OrderDate = DateTime.UtcNow;
-            order.Status = false;
+            order.Status = OrderStatus.PROCESSING;
             order.PaymentType = PaymentType.COD;
-            order.Status = false;
+            order.IsPayment = PaymentStatus.AWAITING;
             order.Details = cart.Items.Select(i => new OrderDetail
             {
                 ProductID = i.ProductId,
                 Quantity = (int)i.Quantity,
                 Price = (decimal)i.Price,
             }).ToList();
-
-            _context.Orders.Add(order);
+			foreach (var item in cart.Items)
+			{
+				var product = await _context.Products
+					.Include(p => p.ProductDetails)
+					.FirstOrDefaultAsync(x => x.ProductID == item.ProductId);
+				product.QuantityOnHand -= (int)item.Quantity;
+				var prodt = product.ProductDetails.FirstOrDefault(x => x.SizeID == item.SizeID);
+				prodt.Quantity -= (int)item.Quantity;
+				_context.Products.Update(product);
+				await _context.SaveChangesAsync();
+			}
+			_context.Orders.Add(order);
             await _context.SaveChangesAsync();
             HttpContext.Session.Remove("Cart");
             return View("OrderCompleted");
@@ -139,12 +149,19 @@ namespace FashionStore.Controllers
         public async Task<IActionResult> CreatePaypalOrder(CancellationToken cancellationToken)
         {
             var cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("Cart") ?? new ShoppingCart();
-            var Total = cart.Items.Sum(o => o.Price).ToString();
+            var Total = cart.Items.Sum(o => o.Price);
             var currency = "USD";
             var reference = "DH" + DateTime.Now.Ticks.ToString();
-            try
+
+			// Giả sử tỷ giá hối đoái
+			decimal exchangeRate = 23000m;
+
+			// Chuyển đổi tổng số tiền VND sang USD
+
+	        var totalAmountUSD = CurrencyConverter.ConvertVNDToUSD((decimal)Total, exchangeRate);
+			try
             {
-                var response = await _paypalClient.CreateOrder(Total, currency, reference);
+                var response = await _paypalClient.CreateOrder(totalAmountUSD.ToString(), currency, reference);
 
                 return Ok(response);
             }
@@ -166,8 +183,8 @@ namespace FashionStore.Controllers
                     UserID = _userManager.GetUserId(User),
                     OrderDate = DateTime.Now,
                     PaymentType = PaymentType.PAYPAL,
-                    IsPayment = true,
-                    Status = true
+                    IsPayment = PaymentStatus.PAID,
+                    Status = OrderStatus.PROCESSING,
                 };
                 order.Details = cart.Items.Select(i => new OrderDetail
                 {
@@ -229,7 +246,8 @@ namespace FashionStore.Controllers
                     UserID = user.Id,
                     OrderDate = DateTime.Now,
                     PaymentType = PaymentType.VNPAY,
-                    Status = false
+                    IsPayment = PaymentStatus.PAID,
+                    Status = OrderStatus.PROCESSING
                 };
                 order.Details = cart.Items.Select(i => new OrderDetail
                 {

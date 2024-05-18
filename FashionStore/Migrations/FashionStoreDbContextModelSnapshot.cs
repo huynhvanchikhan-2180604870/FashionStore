@@ -258,8 +258,8 @@ namespace FashionStore.Migrations
                     b.Property<decimal>("Disscount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("IsPayment")
-                        .HasColumnType("bit");
+                    b.Property<short>("IsPayment")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -271,8 +271,8 @@ namespace FashionStore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("UserID")
                         .IsRequired()
