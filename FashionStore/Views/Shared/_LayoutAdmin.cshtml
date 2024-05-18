@@ -1,4 +1,10 @@
-﻿<!doctype html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> _userManager;
+@{
+	var currentUser = await _userManager.GetUserAsync(User);
+}
+
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -53,7 +59,7 @@
 			<!-- Sidebar brand starts -->
 			<div class="sidebar-brand">
 				<a href="index.html" class="logo">
-					<img src="assets/images/logo.svg" alt="Melon Admin Dashboard" />
+					<img src="http://hockitsystems.id.vn:8080/images/HOCK.svg" alt="Melon Admin Dashboard" />
 				</a>
 			</div>
 			<!-- Sidebar brand starts -->
@@ -155,35 +161,11 @@
 					<!-- Leads end -->
 					<!-- Header actions start -->
 					<ul class="header-actions">
-						<li class="dropdown d-none d-md-block">
-							<a href="#" id="countries" data-toggle="dropdown" aria-haspopup="true">
-								<img src="assets/images/flags/1x1/br.svg" class="flag-img" alt="Admin Panels" />
-							</a>
-							<div class="dropdown-menu dropdown-menu-end mini" aria-labelledby="countries">
-								<div class="country-container">
-									<a href="index.html">
-										<img src="assets/images/flags/1x1/us.svg" alt="Clean Admin Dashboards" />
-									</a>
-									<a href="index.html">
-										<img src="assets/images/flags/1x1/in.svg" alt="Google Dashboards" />
-									</a>
-									<a href="index.html">
-										<img src="assets/images/flags/1x1/gb.svg" alt="AI Admin Dashboards" />
-									</a>
-									<a href="index.html">
-										<img src="assets/images/flags/1x1/tr.svg" alt="Modern Dashboards" />
-									</a>
-									<a href="index.html">
-										<img src="assets/images/flags/1x1/ca.svg" alt="Best Admin Dashboards" />
-									</a>
-								</div>
-							</div>
-						</li>
 						<li class="dropdown">
 							<a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
-								<span class="user-name d-none d-md-block">Abigale Heaney</span>
+								<span class="user-name d-none d-md-block">@currentUser.FullName</span>
 								<span class="avatar">
-									<img src="assets/images/user.png" alt="Admin Templates">
+									<img src="http://hockitsystems.id.vn:8080/images/HOCK.svg" alt="Admin Templates">
 									<span class="status online"></span>
 								</span>
 							</a>

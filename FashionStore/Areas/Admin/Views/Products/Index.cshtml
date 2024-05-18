@@ -1,7 +1,9 @@
-﻿@model IEnumerable<FashionStore.Models.Product>
+﻿@model X.PagedList.IPagedList<FashionStore.Models.Product>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    int pageCount = Model.PageCount;
+    int currentPage = Model.PageNumber;
 }
 
 <div class="text-end">
@@ -40,5 +42,22 @@
             }
         </tbody>
     </table>
+    <div class="row text-center" id="page">
+        <div class="col-lg-12">
+            <div class="product__pagination">
+                @for (int i = 1; i <= pageCount; i++)
+                {
+                    if (i == currentPage)
+                    {
+                        <a class="active btn btn-outline-success" href="#">@i</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Products",new { page = i })" class="btn btn-outline-success">@i</a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
