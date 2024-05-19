@@ -1,14 +1,17 @@
-﻿using Azure;
-using FashionStore.Data;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using FashionStore.Models;
+using FashionStore.HelperClass;
+using System.Linq;
+using System.Threading.Tasks;
+using X.PagedList;
+using System.Text.Json;
+using FashionStore.Data;
+using Microsoft.AspNetCore.Identity;
 using FashionStore.ModelsViews;
 using FashionStore.ShoppingModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using X.PagedList;
 
 namespace FashionStore.Controllers
 {
@@ -28,16 +31,39 @@ namespace FashionStore.Controllers
         public async Task<IActionResult> Index(int page = 1)
         {
             page = page < 1 ? 1 : page;
-            int pagesize = 20;
+            int pageSize = 20;
+
             var categories = await _context.Categories.Include(x => x.Products).ToListAsync();
-            var products = await _context.Products
-                .Include(p => p.Brand)
-                .Include(p => p.Material)
-                .Include(p => p.Images)
-                .Include(p => p.Category)
-                .Include(p => p.Comments)
-                .Where(p => p.QuantityOnHand > 0)
-                .ToPagedListAsync(page, pagesize);
+
+            var productsFromSession = HttpContext.Session.GetObjectFromJson<List<Product>>("ProductFilter");
+            int? categoryId = Microsoft.AspNetCore.Http.SessionExtensions.GetInt32(HttpContext.Session, "SelectedCategoryId");
+
+            IPagedList<Product> products;
+            if (productsFromSession == null || categoryId == null)
+            {
+                products = await _context.Products
+                    .Include(p => p.Brand)
+                    .Include(p => p.Material)
+                    .Include(p => p.Images)
+                    .Include(p => p.Category)
+                    .ToPagedListAsync(page, pageSize);
+            }
+            else
+            {
+                var productsWithImages = new List<Product>();
+
+                foreach (var product in productsFromSession)
+                {
+                    var images = await _context.ProductImages.Where(i => i.ProductId == product.ProductID).ToListAsync();
+                    product.Images = images;
+                    productsWithImages.Add(product);
+                }
+
+                products = productsWithImages
+                    .Where(p => p.CategoryId == categoryId)
+                    .ToPagedList(page, pageSize);
+            }
+
             var sizes = await _context.Sizes.Include(x => x.ProductDetails).ToListAsync();
             var brands = await _context.Brands.Include(x => x.Products).ToListAsync();
 
@@ -52,19 +78,46 @@ namespace FashionStore.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> FilterByCategory(int? id, int page)
+
+        public async Task<IActionResult> FilterByCategory(int? id, int page = 1)
         {
             page = page < 1 ? 1 : page;
-            int pagesize = 20;
+            int pageSize = 20;
+
+            // Store the selected category ID in session
+            Microsoft.AspNetCore.Http.SessionExtensions.SetInt32(HttpContext.Session, "SelectedCategoryId", id.HasValue ? id.Value : 0);
+
             var categories = await _context.Categories.Include(x => x.Products).ToListAsync();
-            var products = _context.Products
-                .Include(p => p.Brand)
-                .Include(p => p.Material)
-                .Include(p => p.Images)
-                .Include(p => p.Category)
-                .Where(x => x.CategoryId == id && x.QuantityOnHand > 0).ToPagedList(page, pagesize);
+
+            List<Product> productList;
+            if (id.HasValue)
+            {
+                productList = await _context.Products
+                    .Include(p => p.Brand)
+                    .Include(p => p.Material)
+                    .Include(p => p.Images)
+                    .Include(p => p.Category)
+                    .Where(x => x.CategoryId == id && x.QuantityOnHand > 0)
+                    .ToListAsync();
+            }
+            else
+            {
+                productList = await _context.Products
+                    .Include(p => p.Brand)
+                    .Include(p => p.Material)
+                    .Include(p => p.Images)
+                    .Include(p => p.Category)
+                    .ToListAsync();
+            }
+
+            // Store filtered products in session
+            HttpContext.Session.SetObjectAsJson("ProductFilter", productList);
+
+            var products = productList.ToPagedList(page, pageSize);
+
             var sizes = await _context.Sizes.Include(x => x.ProductDetails).ToListAsync();
             var brands = await _context.Brands.Include(x => x.Products).ToListAsync();
+
             var model = new MVShop
             {
                 Categories = categories,
@@ -72,8 +125,12 @@ namespace FashionStore.Controllers
                 Sizes = sizes,
                 Brands = brands
             };
+
             return View("Index", model);
         }
+
+
+
 
         public async Task<IActionResult> ProductDetail(string id)
         {
@@ -135,16 +192,45 @@ namespace FashionStore.Controllers
         public async Task<IActionResult> Sorting(int? typesoft, int page = 1)
         {
             page = page < 1 ? 1 : page;
-            int pagesize = 20;
+            int pageSize = 20;
+
+            // Store the selected sorting type in session
+            if (typesoft.HasValue)
+            {
+                Microsoft.AspNetCore.Http.SessionExtensions.SetInt32(HttpContext.Session, "SelectedSortingType", typesoft.Value);
+            }
+            else
+            {
+                // Retrieve the sorting type from session if not provided
+                typesoft = FashionStore.HelperClass.SessionExtensions.GetInt32(HttpContext.Session, "SelectedSortingType");
+            }
+
             var categories = await _context.Categories.Include(x => x.Products).ToListAsync();
-            var products = await _context.Products
+            var productsQuery = _context.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Material)
                 .Include(p => p.Images)
                 .Include(p => p.Category)
                 .Include(p => p.Comments)
-                .Where(p => p.QuantityOnHand > 0)
-                .ToPagedListAsync(page, pagesize);
+                .Where(p => p.QuantityOnHand > 0);
+
+            // Apply sorting based on the selected type
+            switch (typesoft)
+            {
+                case 1:
+                    productsQuery = productsQuery.OrderBy(p => p.Price);
+                    break;
+                case 2:
+                    productsQuery = productsQuery.Where(p => p.Price >= 0 && p.Price <= 500000);
+                    break;
+                case 3:
+                    productsQuery = productsQuery.Where(p => p.Price > 500000 && p.Price <= 15000000);
+                    break;
+                default:
+                    break;
+            }
+
+            var products = await productsQuery.ToPagedListAsync(page, pageSize);
             var sizes = await _context.Sizes.Include(x => x.ProductDetails).ToListAsync();
             var brands = await _context.Brands.Include(x => x.Products).ToListAsync();
 
@@ -156,22 +242,10 @@ namespace FashionStore.Controllers
                 Brands = brands
             };
 
-            switch (typesoft)
-            {
-                case 1:
-                    model.Products = model.Products.OrderBy(p => p.Price).ToPagedList(page, pagesize);
-                    break;
-                case 2:
-                    model.Products = model.Products.Where(p => p.Price >= 0 && p.Price <= 55).ToPagedList(page, pagesize);
-                    break;
-                case 3:
-                    model.Products = model.Products.Where(p => p.Price > 55 && p.Price <= 100).ToPagedList(page, pagesize);
-                    break;
-                default:
-                    break;
-            }
             return View("Index", model);
         }
+
+
 
         [Authorize]
         public async Task<IActionResult> Comment(string UserID, int Rating, string Comment, string ProductID)
