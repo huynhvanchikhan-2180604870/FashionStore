@@ -14,13 +14,17 @@
                             @{
                                 var slideIndexInner = 0;
                             }
-                            @foreach (var banner in Model.Banners)
+                            @if(Model.Banners.Count() > 0)
                             {
-                                <div class="carousel-item @(slideIndexInner == 0 ? "active" : "")">
-                                    <img class="d-block w-100" src="@(banner.UrlImage ?? "")" alt="First slide">
-                                </div>
-                                slideIndexInner++;
+                                @foreach (var banner in Model.Banners)
+                                {
+                                    <div class="carousel-item @(slideIndexInner == 0 ? "active" : "")">
+                                        <img class="d-block w-100" src="@(banner.UrlImage ?? "")" alt="First slide">
+                                    </div>
+                                    slideIndexInner++;
+                                }
                             }
+                            
 
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">

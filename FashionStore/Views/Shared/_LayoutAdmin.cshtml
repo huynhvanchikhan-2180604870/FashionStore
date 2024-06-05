@@ -13,18 +13,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- Meta -->
-	<meta name="description" content="Melon - Responsive Bootstrap 5 Dashboard Template">
+	<meta name="description" content="HOCK - FashionStore">
 	<meta name="author" content="Bootstrap Gallery" />
 	<link rel="canonical" href="https://www.bootstrap.gallery/">
 	<meta property="og:url" content="https://www.bootstrap.gallery">
-	<meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
-	<meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+	<meta property="og:title" content="HOCK - FashionStore">
+	<meta property="og:description" content="HOCK - FashionStore">
 	<meta property="og:type" content="Website">
 	<meta property="og:site_name" content="Bootstrap Gallery">
 	<link rel="shortcut icon" href="assets/images/favicon.svg">
 
 	<!-- Title -->
-	<title>Melon Admin Template - Admin Dashboard</title>
+	<title>HOCK - FashionStore</title>
 
 
 	<!-- *************
@@ -45,6 +45,8 @@
 	************ -->
 	<!-- Scrollbar CSS -->
 	<link rel="stylesheet" href="~/admin/assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
+	<!-- Include the ECharts file you just downloaded -->
+	<script src="~/echarts/echarts.js"></script>
 	@RenderSection("Style", required: false)
 </head>
 
@@ -172,6 +174,7 @@
 							<div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
 								<div class="header-profile-actions">
 									<a href="profile.html">Profile</a>
+									<a asp-action="Index" asp-controller="Home" asp-area="default">Client</a>
 									<a href="account-settings.html">Settings</a>
 									<a href="login.html">Logout</a>
 								</div>

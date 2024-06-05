@@ -15,5 +15,6 @@ namespace FashionStore.Models
         public ApplicationUser User { get; set; }
         public decimal Disscount { get; set; }
         public IEnumerable<OrderDetail> Details { get; set; }
+
     }
 }

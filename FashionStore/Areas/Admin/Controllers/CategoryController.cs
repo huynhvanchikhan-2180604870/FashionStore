@@ -49,6 +49,40 @@ namespace FashionStore.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int name)
+        {
+            var category = await _dbContext.Categories.Include(c => c.Products).FirstOrDefaultAsync(c => c.CategoryID == name);
+            if (category!= null)
+            {
+                if(category.Products.Count() > 0)
+                {
+                    var products = await _dbContext.Products.Where(x => x.CategoryId == category.CategoryID).ToListAsync();
+                    foreach (var product in products)
+                    {
+                        _dbContext.Products.Remove(product);
+                        await _dbContext.SaveChangesAsync();
+                    }
+                }
+                _dbContext.Categories.Remove(category);
+                await _dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Update(int id)
+        {
+            var category = await _dbContext.Categories.Include(c => c.Products).FirstOrDefaultAsync(c => c.CategoryID == id);
+            return View(category);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(Category category)
+        {
+            _dbContext.Categories.Update(category);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
         
     }
 

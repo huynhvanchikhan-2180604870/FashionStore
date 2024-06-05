@@ -1,6 +1,6 @@
 ﻿@model FashionStore.ShoppingModels.ShoppingCart
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Giỏ hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -31,6 +31,7 @@
                     <table>
                         <thead>
                             <tr>
+                                
                                 <th>Product</th>
                                 <th>Quantity</th>
                                 <th>Total</th>
@@ -38,9 +39,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(var cart in Model.Items)
+                            @foreach (var cart in Model.Items)
                             {
                                 <tr>
+                                    
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
                                             @if (cart.Images.Any(x => x.IsCover))
@@ -55,21 +57,22 @@
                                         </div>
                                     </td>
                                     <td class="quantity__item">
-                                        <div class="quantity">
+                                        <input type="text" value="@cart.Quantity" id="update" readonly style="border:none;text-align:center">
+                                        @* <div class="quantity">
                                             <div class="pro-qty-2">
-                                                <input type="text" value="@cart.Quantity">
+                                                
                                             </div>
-                                        </div>
+                                        </div> *@
                                     </td>
                                     <td class="cart__price">@String.Format("{0:N0} VND", cart.Product.Price * cart.Quantity)</td>
                                     <td class="cart__close">
                                         <a asp-action="RemoveItem" asp-route-id="@cart.ProductId">
                                             <i class="fa fa-close"></i>
                                         </a>
-                                        
+
                                     </td>
                                 </tr>
-                            }                           
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -81,11 +84,12 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn update__btn">
-                            <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+                            @* <a asp-action="UpdateQuantity" asp-controller="Shopping"><i class="fa fa-spinner"></i> Update cart</a> *@
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-4">
                 <div class="cart__discount">
                     <h6>Discount codes</h6>
@@ -107,3 +111,7 @@
     </div>
 </section>
 <!-- Shopping Cart Section End -->
+<script>
+    document.getElementById('update').addEventListener('input', function (event) {
+        console.log('New value:', event.target.value);
+</script>

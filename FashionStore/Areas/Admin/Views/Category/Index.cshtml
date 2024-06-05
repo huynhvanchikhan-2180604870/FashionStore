@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<FashionStore.Models.Category>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách danh mục";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -8,7 +8,7 @@
     <div class="text-end">
         <a class="btn btn-success" asp-action="Add">Add</a>
     </div>
-    <table class="table mt-5">
+    <table class="table mt-5 mb-3">
         <thead>
             <th>#</th>
             <th>Name</th>
@@ -23,11 +23,17 @@
                     <td>@category.CategoryName</td>
                     <td>@category.Products.Count</td>
                     <td>
-
+                        <form method="post">
+                            <input type="type" name="name" value="@category.CategoryID" asp-for="@category.CategoryID" hidden />
+                            <button class="btn btn-outline-danger" asp-action="Delete" asp-controller="Category" asp-area="admin">Delete</button>
+                            
+                        </form>
+                        <a class="btn btn-outline-secondary ms-3" asp-action="Update" asp-controller="Category" asp-area="admin" asp-route-id="@category.CategoryID">Update</a>
                     </td>
                 </tr>
             }
         </tbody>
+        <div class="pt-2"></div>
     </table>
 </div>
 

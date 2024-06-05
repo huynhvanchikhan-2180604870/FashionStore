@@ -24,7 +24,18 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Data\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Models\" />
+    <Folder Include="wwwroot\images\Products\Category_3\" />
+    <Folder Include="wwwroot\images\Products\Category_7\" />
+    <Folder Include="wwwroot\lib\bootstrap\" />
+    <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
+    <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />
+    <Folder Include="wwwroot\lib\jquery-validation\" />
+    <Folder Include="wwwroot\lib\jquery-validation\dist\" />
+    <Folder Include="wwwroot\lib\jquery\" />
+    <Folder Include="wwwroot\lib\jquery\dist\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,6 +78,18 @@
     <None Include="wwwroot\admin\assets\vendor\overlay-scroll\.DS_Store" />
     <None Include="wwwroot\admin\assets\vendor\particles\.DS_Store" />
     <None Include="wwwroot\admin\assets\vendor\summernote\.DS_Store" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="libwkhtmltox.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="libwkhtmltox.dylib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="libwkhtmltox.so">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

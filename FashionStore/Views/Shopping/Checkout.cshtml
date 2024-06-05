@@ -3,7 +3,7 @@
 @model FashionStore.ModelsViews.MVOrder
 @inject UserManager<ApplicationUser> _userManager;
 @{
-    ViewData["Title"] = "Checkout";
+    ViewData["Title"] = "Xác nhận đơn hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var currentUser = await _userManager.GetUserAsync(User);
 }
