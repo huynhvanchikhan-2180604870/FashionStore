@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FashionStore</title>
+    <title>@ViewData["Title"] - HOCK - FashionStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FashionStore.styles.css" asp-append-version="true" />
@@ -207,8 +207,8 @@
                         <ul>
                             <li  class="text-uppercase "><a asp-action="Index" asp-controller="Home" asp-area="default">Home</a></li>
                             <li class="text-uppercase "><a asp-action="Index" asp-controller="Product" asp-area="default">Shop</a></li>
-                            <li class="text-uppercase "><a href="./blog.html">Blog</a></li>
-                            <li class="text-uppercase "><a href="./contact.html">Contacts</a></li>
+                            
+                            <li class="text-uppercase "><a asp-action="Contact" asp-controller="Home" asp-area="default">Contacts</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -248,35 +248,30 @@
                 <div class="col-md-4 footer-column">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <span class="footer-title">Product</span>
+                            <span class="footer-title">Teams</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Product 1</a>
+                            <a class="nav-link text-light" href="#">Huỳnh Văn Chí Khan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Product 2</a>
+                            <a class="nav-link text-light" href="#">Nguyễn Thị Hoàng Oanh</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Plans & Prices</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Frequently asked questions</a>
-                        </li>
+                        
                     </ul>
                 </div>
                 <div class="col-md-4 footer-column">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <span class="footer-title">Company</span>
+                            <span class="footer-title">Pages</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About us</a>
+                            <a class="nav-link text-light" asp-action="Index" asp-controller="Home">Trang chủ</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Job postings</a>
+                            <a class="nav-linktext-light" asp-action="Index" asp-controller="Product">Sản phẩm</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">News and articles</a>
+                            <a class="nav-linktext-light" asp-action="Index" asp-controller="Shopping">Giỏ hàng</a>
                         </li>
                     </ul>
                 </div>
@@ -286,17 +281,12 @@
                             <span class="footer-title">Contact & Support</span>
                         </li>
                         <li class="nav-item">
-                            <span class="nav-link"><i class="fas fa-phone"></i>+47 45 80 80 80</span>
+                            <span class="nav-link text-light"><i class="fas fa-phone"><a href="tel:+84961800341">+84 961 800 341 </a></i></span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-comments"></i>Live chat</a>
+                            <a class="nav-link text-light" href="emailto:huynhkhan91@gmail.com"><i class="fas fa-comments"></i>huynhkhan91@gmail.com</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-envelope"></i>Contact us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-star"></i>Give feedback</a>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>
@@ -306,7 +296,7 @@
             <div class="row text-center">
                 <div class="col-md-4 box">
                     <span class="copyright quick-links">
-                        Copyright &copy; Your Website <script>document.write(new Date().getFullYear())</script>
+                        Copyright &copy; HOCK - FashionStore <script>document.write(new Date().getFullYear())</script>
                     </span>
                 </div>
                 <div class="col-md-4 box">

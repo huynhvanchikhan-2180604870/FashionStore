@@ -2,7 +2,7 @@
 @model FashionStore.ShoppingModels.CartItem
 @inject UserManager<ApplicationUser> _userManager;
 @{
-    ViewData["Title"] = "ProductDetail";
+    ViewData["Title"] = "Chi tiết sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var i = 0;
     var j = 0;
@@ -45,6 +45,77 @@
         min-height: 30px;
         display: inline-block;
     }
+
+    icon-shape {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .icon-sm {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    button {
+        font-family: inherit;
+        font-size: 18px;
+        background: linear-gradient(to bottom, #4dc7d9 0%,#66a6ff 100%);
+        color: white;
+        padding: 0.8em 1.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 25px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s;
+    }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: scale(0.95);
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        button span {
+            display: block;
+            margin-left: 0.4em;
+            transition: all 0.3s;
+        }
+
+        button svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+            transition: all 0.3s;
+        }
+
+        button .svg-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            margin-right: 0.5em;
+            transition: all 0.3s;
+        }
+
+        button:hover .svg-wrapper {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        button:hover svg {
+            transform: rotate(45deg);
+        }
 
 </style>
 
@@ -130,11 +201,16 @@
                                 </div>
                             </div>
                             <div class="product__details__cart__option">
-                                <div class="quantity">
+                                <div class="input-group w-auto justify-content-end align-items-center quantity">
+                                    <input type="button" value="-" class="button-minus border rounded-circle  icon-shape icon-sm mx-1 " data-field="quantity">
+                                    <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field border-0 text-center w-25">
+                                    <input type="button" value="+" class="button-plus border rounded-circle icon-shape icon-sm " data-field="quantity">
+                                </div>
+                                @* <div class="quantity">
                                     <div class="pro-qty">
                                         <input type="text" asp-for="@Model.Quantity" name="quantity">
                                     </div>
-                                </div>
+                                </div> *@
                                 <button type="submit" class="primary-btn" id="addToCartButton" asp-action="AddToCart" asp-controller="Shopping"
                                         asp-route-id="@Model.ProductId" asp-route-quantity="@Model.Quantity" asp-route-sizeid="">
                                     Add to Cart
@@ -155,71 +231,78 @@
                     <div class="product__details__tab">
                         <div>
                             <hr>
-                            <h3 class="text-center font-weight-bold text-uppercase mb-3">Review</h3>
-                            <div class="container shadow pb-3 pt-3 ps-3 pe-3" style="border-radius: 14px; background: #F1F1F1;">
+                            <div class="container shadow pb-3 pt-3 ps-3 pe-3 bg-light" style="border-radius: 14px;">
 
                                 @foreach (var comment in Model.Product.Comments)
                                 {
                                     <div class="card mb-2" style="border-radius:11px">
                                         
                                         <div class="card-body">
-                                            <label style="border-bottom:1px solid red" for="">@comment.FullName (@comment.Rate)</label>
-                                            <p>@comment.Message</p>
+                                            <label class="font-weight-bold" style="text-shadow:3px 4px 7px rgba(81,67,21,0.8); color:black;">@comment.FullName -  </label> @comment.Rate <i class="fa fa-star text-warning"></i>
+                                            <p>    @comment.Message</p>
                                         </div>
                                     </div>
                                 }
+                                @{
+                                    var currentUser = await _userManager.GetUserAsync(User);
+                                }
+                                @if (currentUser != null)
+                                {
+                                    <form asp-action="Comment">
+                                        <div class="commentBox">
+                                            <hr />
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
 
-
-                            </div>
-                            <dl class="dl-horizontal">
-                                <dt>
-                                    Comment
-                                </dt>
-
-                                <dd>
-                                    @{
-                                        var currentUser = await _userManager.GetUserAsync(User);
-                                    }
-                                    @if(currentUser != null)
-                                    {
-                                        <form asp-action="Comment">
-                                            <div class="commentBox">
-
-                                                <div class="form-horizontal">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            Your rating <span style="font-weight:normal;">(1 start is bad, 5 star is good)</span>
-                                                        </label>
-                                                        <div class="col-md-7">
-                                                            <div onmouseout="CRateSelected()">
-                                                                <span class="starFade" id="Rate1" onclick="CRate(1)" onmouseover="CRateOver(1)" onmouseout="CRateOut(1)"></span><span class="starFade" id="Rate2" onclick="CRate(2)" onmouseover="CRateOver(2)" onmouseout="CRateOut(2)"></span><span class="starFade" id="Rate3" onclick="CRate(3)" onmouseover="CRateOver(3)" onmouseout="CRateOut(3)"></span><span class="starFade" id="Rate4" onclick="CRate(4)" onmouseover="CRateOver(4)" onmouseout="CRateOut(4)"></span><span class="starFade" id="Rate5" onclick="CRate(5)" onmouseover="CRateOver(5)" onmouseout="CRateOut(5)"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-12">
-                                                            <textarea name="Comment" id="Comment" required rows="5" style="width:100%;" class="form-control"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-12">
-
-                                                            <input type="hidden" name="UserID" value="@currentUser.Id" />
-                                                            <input type="hidden" name="ProductID" value="@Model.ProductId" />
-                                                            <input type="hidden" name="Rating" id="Rating" value="0" />
-                                                            <input type="submit" value="Submit Comment" class="btn btn-warning" />
-
+                                                    <label class="col-md-4 control-label">
+                                                        Your rating <span style="font-weight:normal;">(1 start is bad, 5 star is good)</span>
+                                                    </label>
+                                                    <div class="col-md-7">
+                                                        <div onmouseout="CRateSelected()">
+                                                            <span class="starFade" id="Rate1" onclick="CRate(1)" onmouseover="CRateOver(1)" onmouseout="CRateOut(1)"></span>
+                                                            <span class="starFade" id="Rate2" onclick="CRate(2)" onmouseover="CRateOver(2)" onmouseout="CRateOut(2)"></span>
+                                                            <span class="starFade" id="Rate3" onclick="CRate(3)" onmouseover="CRateOver(3)" onmouseout="CRateOut(3)"></span>
+                                                            <span class="starFade" id="Rate4" onclick="CRate(4)" onmouseover="CRateOver(4)" onmouseout="CRateOut(4)"></span>
+                                                            <span class="starFade" id="Rate5" onclick="CRate(5)" onmouseover="CRateOver(5)" onmouseout="CRateOut(5)"></span>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <textarea name="Comment" id="Comment" required rows="5" style="width:100%;" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
 
+                                                        <input type="hidden" name="UserID" value="@currentUser.Id" />
+                                                        <input type="hidden" name="ProductID" value="@Model.ProductId" />
+                                                        <input type="hidden" name="Rating" id="Rating" value="0" />
+                                                        <div class="text-center">
+                                                            <button type="submit" class="text-center">
+                                                                
+                                                                <div class="svg-wrapper-1">
+                                                                    <div class="svg-wrapper">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                                                            <path fill="none" d="M0 0h24v24H0z"></path>
+                                                                            <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
+                                                                <span>Send</span>
+                                                            </button>
+                                                            @* <input type="submit" value="Submit Comment" class="btn btn-outline-success" /> *@
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </form>
-                                    }
-                                    
-                                </dd>
 
-                            </dl>
+                                        </div>
+                                    </form>
+                                }
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -228,201 +311,94 @@
     </div>
 </section>
 <!-- Shop Details Section End -->
-<!-- Related Section Begin -->
-<section class="related spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h3 class="related-title">Related Product</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
-                        <span class="label">New</span>
-                        <ul class="product__hover">
-                            <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                            <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                            <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6>Piqué Biker Jacket</h6>
-                        <a href="#" class="add-cart">+ Add To Cart</a>
-                        <div class="rating">
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <h5>$67.24</h5>
-                        <div class="product__color__select">
-                            <label for="pc-1">
-                                <input type="radio" id="pc-1">
-                            </label>
-                            <label class="active black" for="pc-2">
-                                <input type="radio" id="pc-2">
-                            </label>
-                            <label class="grey" for="pc-3">
-                                <input type="radio" id="pc-3">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                        <ul class="product__hover">
-                            <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                            <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                            <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6>Piqué Biker Jacket</h6>
-                        <a href="#" class="add-cart">+ Add To Cart</a>
-                        <div class="rating">
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <h5>$67.24</h5>
-                        <div class="product__color__select">
-                            <label for="pc-4">
-                                <input type="radio" id="pc-4">
-                            </label>
-                            <label class="active black" for="pc-5">
-                                <input type="radio" id="pc-5">
-                            </label>
-                            <label class="grey" for="pc-6">
-                                <input type="radio" id="pc-6">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                <div class="product__item sale">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
-                        <span class="label">Sale</span>
-                        <ul class="product__hover">
-                            <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                            <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                            <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6>Multi-pocket Chest Bag</h6>
-                        <a href="#" class="add-cart">+ Add To Cart</a>
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <h5>$43.48</h5>
-                        <div class="product__color__select">
-                            <label for="pc-7">
-                                <input type="radio" id="pc-7">
-                            </label>
-                            <label class="active black" for="pc-8">
-                                <input type="radio" id="pc-8">
-                            </label>
-                            <label class="grey" for="pc-9">
-                                <input type="radio" id="pc-9">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/product-4.jpg">
-                        <ul class="product__hover">
-                            <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                            <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                            <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6>Diagonal Textured Cap</h6>
-                        <a href="#" class="add-cart">+ Add To Cart</a>
-                        <div class="rating">
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <h5>$60.9</h5>
-                        <div class="product__color__select">
-                            <label for="pc-10">
-                                <input type="radio" id="pc-10">
-                            </label>
-                            <label class="active black" for="pc-11">
-                                <input type="radio" id="pc-11">
-                            </label>
-                            <label class="grey" for="pc-12">
-                                <input type="radio" id="pc-12">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Related Section End -->
-<script>
-    document.querySelectorAll('input[type="radio"][name="size"]').forEach(function (radio) {
-        radio.addEventListener('change', function () {
-            var selectedSizeId = this.getAttribute('data-size-id');
-            var addToCartButton = document.getElementById('addToCartButton');
-            addToCartButton.setAttribute('asp-route-sizeid', selectedSizeId);
+@section Scripts{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('input[type="radio"][name="size"]').forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    var selectedSizeId = this.getAttribute('data-size-id');
+                    var addToCartButton = document.getElementById('addToCartButton');
+                    addToCartButton.setAttribute('asp-route-sizeid', selectedSizeId);
+                });
+            });
+
+            function SubmitComment() {
+                if ($("#Rating").val() == "0") {
+                    alert("Please rate this service provider.");
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            function CRate(r) {
+                $("#Rating").val(r);
+                for (var i = 1; i <= r; i++) {
+                    $("#Rate" + i).attr('class', 'starGlow');
+                }
+                // unselect remaining
+                for (var i = r + 1; i <= 5; i++) {
+                    $("#Rate" + i).attr('class', 'starFade');
+                }
+            }
+
+            function CRateOver(r) {
+                for (var i = 1; i <= r; i++) {
+                    $("#Rate" + i).attr('class', 'starGlow');
+                }
+            }
+
+            function CRateOut(r) {
+                for (var i = 1; i <= r; i++) {
+                    $("#Rate" + i).attr('class', 'starFade');
+                }
+            }
+
+            function CRateSelected() {
+                var setRating = $("#Rating").val();
+                for (var i = 1; i <= setRating; i++) {
+                    $("#Rate" + i).attr('class', 'starGlow');
+                }
+            }
+            function incrementValue(e) {
+                e.preventDefault();
+                var fieldName = $(e.target).data('field');
+                var parent = $(e.target).closest('div');
+                var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+                if (!isNaN(currentVal)) {
+                    parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+                } else {
+                    parent.find('input[name=' + fieldName + ']').val(0);
+                }
+            }
+
+            function decrementValue(e) {
+                e.preventDefault();
+                var fieldName = $(e.target).data('field');
+                var parent = $(e.target).closest('div');
+                var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+                if (!isNaN(currentVal) && currentVal > 0) {
+                    parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
+                } else {
+                    parent.find('input[name=' + fieldName + ']').val(0);
+                }
+            }
+
+            $('.input-group').on('click', '.button-plus', function (e) {
+                incrementValue(e);
+            });
+
+            $('.input-group').on('click', '.button-minus', function (e) {
+                decrementValue(e);
+            });
+
+
+            window.CRate = CRate;
+            window.CRateOver = CRateOver;
+            window.CRateOut = CRateOut;
+            window.CRateSelected = CRateSelected;
         });
-    function SubmitComment() {
-        if ($("#Rating").val() == "0") {
-            alert("Please rate this service provider.");
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    function CRate(r) {
-        $("#Rating").val(r);
-        for (var i = 1; i <= r; i++) {
-            $("#Rate" + i).attr('class', 'starGlow');
-        }
-        // unselect remaining
-        for (var i = r + 1; i <= 5; i++) {
-            $("#Rate" + i).attr('class', 'starFade');
-        }
-    }
-
-    function CRateOver(r) {
-        for (var i = 1; i <= r; i++) {
-            $("#Rate" + i).attr('class', 'starGlow');
-        }
-    }
-
-    function CRateOut(r) {
-        for (var i = 1; i <= r; i++) {
-            $("#Rate" + i).attr('class', 'starFade');
-        }
-    }
-
-    function CRateSelected() {
-        var setRating = $("#Rating").val();
-        for (var i = 1; i <= setRating; i++) {
-            $("#Rate" + i).attr('class', 'starGlow');
-        }
-    }
-</script>
+    </script>
+}

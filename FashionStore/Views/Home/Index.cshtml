@@ -1,10 +1,17 @@
 ﻿@model FashionStore.ModelsViews.MVProductEvent
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Trang chủ";
     var slide = 0;
 }
 
 <style>
+    .transion {
+        transition: all 0.3s ease;
+    }
+
+        .transion:hover {
+            transform: scale(1.01);
+        }
     .banner {
         border-radius: 10px;
         cursor: pointer;
@@ -55,30 +62,27 @@
     {
         <div> <h3 class="text text-center text-dark pt-4"><b>@events.EventName</b></h3> </div>
         <div class="row row-cols-auto">
-            @foreach(var product in events.ProductEvents)
+            @if(events.ProductEvents.Count >= 3)
             {
-                <div class="col shadow ms-2" style="border-radius:14px">
-                    <div class="card border-0">
-                        <img style="border-radius:15px" src="@(product.Product.Images.FirstOrDefault(x => x.ProductId == product.ProductID&&x.IsCover ==true).UrlImage)" alt="Alternate Text" />
-                        <div class="card-body">
-                            <a href="#" class="mb-3 h4 text-dark">@product.Product.ProductName</a>
-                            <p class="h6 pt-4">@product.Product.Price</p>
+                @for(int i = 0; i < 3; i++)
+                {
+                    <div class="col shadow ms-2 transion" style="border-radius:14px">
+                        <div class="card border-0 ">
+                            <img style="border-radius:15px" src="@(events.ProductEvents.ElementAt(i).Product.Images.FirstOrDefault(x => x.ProductId == events.ProductEvents.ElementAt(i).ProductID&&x.IsCover ==true).UrlImage)" alt="Alternate Text" />
+                            <div class="card-body">
+                                <a asp-action="ProductDetail" asp-controller="Product" asp-route-id="@events.ProductEvents.ElementAt(i).ProductID" class="mb-3 h4 text-dark">@events.ProductEvents.ElementAt(i).Product.ProductName</a>
+                                <p class="h6 pt-4">@events.ProductEvents.ElementAt(i).Product.Price</p>
+                            </div>
                         </div>
+
                     </div>
-
-                </div>
+                }
             }
-
-            
         </div>
         <form>
             <button class="btn btn-outline-dark btn-pb " asp-action="ProductEvent" asp-controller="Product" asp-route-id="@events.EventID"><b>XEM THÊM</b></button>
         </form>
     }
-    
-
-    
-
     <div class="row pt-4 pb-5">
         <div class="col">
             <img class="banner" src="https://routine.vn/media/amasty/webp/wysiwyg/Polo_Premium_jpg.webp" />

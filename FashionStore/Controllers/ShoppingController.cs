@@ -26,12 +26,18 @@ namespace FashionStore.Controllers
             _paypalClient = paypalClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var currentUSer = await _userManager.GetUserAsync(User);
             var cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("Cart") ?? new ShoppingCart();
             if (cart.Items.Count == 0)
             {
-                return View("EmptyCart");
+                var orders = await _context.Orders
+                    .Include(p => p.Details)
+                    .ThenInclude(p => p.Product)
+                    .ThenInclude(p => p.Images)
+                    .Where(x => x.UserID == currentUSer.Id).ToListAsync(); 
+                return View("EmptyCart", orders);
             }
             
             return View(cart);
@@ -305,5 +311,47 @@ namespace FashionStore.Controllers
             TempData["Message"] = $"Thanh toán VNPAY thành công";
             return RedirectToAction("OrderCompleted");
         }
+
+        [HttpPost]
+        public IActionResult UpdateQuantity(string id ,int quantity)
+        {
+            var cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("Cart") ?? new ShoppingCart();
+            var item = cart.Items.FirstOrDefault(i => i.ProductId == id);
+
+            if (item != null)
+            {
+                item.Quantity = quantity;
+                item.Price = item.Product.Price * quantity; // Assuming Product has a Price property
+
+               
+                // Save the updated cart back to the session
+                HttpContext.Session.SetObjectAsJson("Cart", cart);
+
+                
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DetailOrderHistory(int id)
+        {
+            var order = await _context.Orders
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.OrderID == id);
+
+            if(order != null)
+            {
+                var details = await _context.OrderDetails
+                    .Include(d => d.Product)
+                    .ThenInclude(d => d.Images)
+                    .Include(d => d.Size)
+                    .Where(x => x.OrderID == order.OrderID).ToListAsync();
+                order.Details = details;
+            }
+
+            return View(order);
+        }
+
+
     }
 }

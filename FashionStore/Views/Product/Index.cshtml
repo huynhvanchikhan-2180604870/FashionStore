@@ -1,7 +1,7 @@
 ﻿@using X.PagedList.Mvc.Core
 @model FashionStore.ModelsViews.MVShop
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int pageCount = Model.Products.PageCount;
     int currentPage = Model.Products.PageNumber;
@@ -163,17 +163,7 @@
                                         <i class="fa fa-star-o"></i>
                                     </div>
                                     <h5>@String.Format("{0:N0} VND", product.Price)</h5>
-                                    <div class="product__color__select">
-                                        <label for="pc-4">
-                                            <input type="radio" id="pc-4">
-                                        </label>
-                                        <label class="active black" for="pc-5">
-                                            <input type="radio" id="pc-5">
-                                        </label>
-                                        <label class="grey" for="pc-6">
-                                            <input type="radio" id="pc-6">
-                                        </label>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>

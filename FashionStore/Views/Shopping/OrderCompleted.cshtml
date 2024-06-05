@@ -1,11 +1,11 @@
 ﻿@using FashionStore.HelperClass
 @model FashionStore.Models.Order
 @{
-    ViewData["Title"] = "OrderCompleted";
+    ViewData["Title"] = "Đặt hàng thành công";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container shadow" style="border-radius:14px">
-    <h4 class="text-center">Infor DELIVERED</h4>
+    <h4 class="text-center">INFOR DELIVERED</h4>
     <table class="table">
         <thead>
         <th>#</th>
@@ -17,14 +17,15 @@
         </thead>
         <tbody>
             <tr>
-                <td>@Model.OrderID</td>
-                <td>@Model.User.FullName</td>
-                <td>@Model.User.PhoneNumber</td>
-                <td>@Model.User.Address</td>
-                <td>
+                <td id="orderid">@Model.OrderID</td>
+                <td id="fullname">@Model.User.FullName</td>
+                <td id="phonenumber">@Model.User.PhoneNumber</td>
+                <td id="address">@Model.User.Address</td>
+                <input value="@Model.User.Email" id="email" hidden />
+                <td id="paymentstatus">
                     @(Model.IsPayment == PaymentStatus.PAID ? "Success" : "Awatting")
                 </td>
-                <td>
+                <td id="orderstatus">
                     @(Model.Status == OrderStatus.PROCESSING ? "Processing" : "Delivered")
                 </td>
             </tr>
@@ -60,12 +61,55 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td> <strong>Total:</strong> @String.Format("{0:N0} VND", Model.Details.Sum(s => s.Quantity * s.Product.Price))</td>
+                <td> <strong>Total:</strong> <span id="total"> @String.Format("{0:N0} VND", Model.Details.Sum(s => s.Quantity * s.Product.Price))</span></td>
             </tr>
         </tbody>
     </table>
     <div class="text-center  pb-5 pt-3">
-        <a class="text-uppercase btn btn-outline-secondary">continue shoping</a>
-        <a class="btn btn-primary text-light" asp-action="GenerateInvoice" asp-controller="Report">Print Invoice</a>
+        <a class="text-uppercase btn btn-outline-secondary" asp-action="Index" asp-controller="Product">continue shoping</a>
+        <a class="btn btn-primary text-light" asp-action="ExportOrderPdf" asp-controller="Report" asp-route-id="@Model.OrderID">Print Invoice</a>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const order = document.getElementById("orderid");
+        const fullname = document.getElementById("fullname");
+        const phone = document.getElementById("phonenumber");
+        const address = document.getElementById("address");
+        const email = document.getElementById("email");
+        const paymentstatus = document.getElementById("paymentstatus");
+        const orderstatus = document.getElementById("orderstatus");
+        const total = document.getElementById("total");
+
+        const data = {
+            orderid: order.textContent,
+            name: fullname.textContent,
+            phonenumber: phone.textContent,
+            address: address.textContent,
+            email: email.value,
+            paymentstatus: paymentstatus.textContent.trim(),
+            orderstatus: orderstatus.textContent.trim(),
+            total: total.textContent.trim(),
+        };
+        postData(data);
+    });
+
+    async function postData(data) {
+        const formData = new FormData();
+        formData.append("entry.1714993077", data.orderid);
+        formData.append("entry.1261881710", data.name);
+        formData.append("entry.1395662613", data.phonenumber);
+        formData.append("entry.1731174940", data.address);
+        formData.append("entry.1405189743", data.email);
+        formData.append("entry.1370585479", data.paymentstatus);
+        formData.append("entry.336387655", data.orderstatus);
+        formData.append("entry.1567688173", data.total);
+
+        fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSdwK46riG93bPqgTa3ViqoFyQZJSYJtquGE_jl-MoOqGnVPMw/formResponse", {
+            method: "POST",
+            body: formData,
+            mode: "no-cors"
+        });
+    }
+</script>

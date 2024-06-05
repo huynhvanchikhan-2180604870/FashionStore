@@ -1,0 +1,76 @@
+﻿@using FashionStore.HelperClass;
+@model FashionStore.Models.Order
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<section class="row">
+    <div class="callout large invoice-container">
+        <table class="invoice">
+            <tr class="header">
+                <td class="">
+                    <img src="http://localhost:5249/images/HOCK.svg" alt="Company Name" style="width:100px;height:100px" />
+                </td>
+                <td class="align-right">
+                    <h2>Invoice</h2>
+                </td>
+            </tr>
+            <tr class="intro">
+                <td class="">
+                    Hello, @Model.User.FullName<br>
+                    Thank you for your order.
+                </td>
+                <td class="text-right">
+                    <span class="num">Order #@Model.OrderID</span><br>
+                    @Model.OrderDate.ToString("MMMM dd, yyyy")
+                </td>
+            </tr>
+            <tr class="details">
+                <td colspan="2">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="desc">Item Name</th>
+                                <th class="id">Item ID</th>
+                                <th class="qty">Quantity</th>
+                                <th class="amt">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var od in Model.Details)
+                            {
+                                <tr class="item">
+                                    <td class="desc">@od.Product.ProductName</td>
+                                    <td class="id num">@od.Product.ProductID</td>
+                                    <td class="qty">@od.Quantity</td>
+                                    <td class="amt">@String.Format("{0:N0} VND", od.Quantity * od.Product.Price)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <section class="additional-info">
+            <div class="row">
+                <div class="columns">
+                    <h5>Billing Information</h5>
+                    <p>
+                        @Model.User.FullName<br>
+                        @Model.User.Address.<br>
+
+                    </p>
+                </div>
+                <div class="columns">
+                    <h5>Payment Information</h5>
+                    <p>
+                        Payment Status: @(Model.IsPayment == PaymentStatus.PAID ? "Success" : "Waiting")<br>
+                        Payment Type: @Model.PaymentType<br>
+
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
