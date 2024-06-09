@@ -159,7 +159,7 @@
         <header class="card-header"> My Orders / Tracking </header>
         <div class="card-body">
             <h6>Order ID: @Model.OrderID</h6>
-            <article class="card">
+            @* <article class="card">
                 <div class="card-body row">
                     <div class="col"> <strong>Order Date:</strong> <br>@Model.OrderDate.ToString("MMM-dd-yyyy") </div>
                     <div class="col"> <strong>Shipping BY:</strong> <br> @Model.User.Address | <i class="fa fa-phone"></i> @Model.User.PhoneNumber </div>
@@ -172,6 +172,24 @@
                 <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> @Model.Status</span> </div>
                 <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> </div>
                 <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div>
+            </div> *@
+            <article class="card">
+                <div class="card-body row">
+                    <div class="col"> <strong>Order Date:</strong> <br>@Model.OrderDate.ToString("MMM-dd-yyyy") </div>
+                    <div class="col"> <strong>Shipping BY:</strong> <br> @Model.User.Address | <i class="fa fa-phone"></i> @Model.User.PhoneNumber </div>
+                    <div class="col"> 
+                        <strong>Status:</strong> <br>
+                        @(Model.Status == OrderStatus.DELIVERED ? "Delivered" : (Model.Status == OrderStatus.CANCELLED ? "Cancelled" : "Processing"))
+                    </div>
+                    <div class="col"> <strong>Tracking #:</strong> <br> Not set </div>
+                </div>
+            </article>
+            <div class="track">
+                <div class="step @(Model.Status != OrderStatus.CANCELLED ? "active" : "")"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+                <div class="step @(Model.Status == OrderStatus.PROCESSING || Model.Status == OrderStatus.DELIVERED ? "active" : "")"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Processing </span> </div>
+                <div class="step @(Model.Status == OrderStatus.DELIVERED ? "active" : "")"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> </div>
+                <div class="step @(Model.Status == OrderStatus.DELIVERED ? "active" : "")"> <span class="icon"> <i class="fa fa-archive "></i> </span> <span class="text">Ready for pickup</span> </div>
+
             </div>
             <hr>
             <ul class="row">

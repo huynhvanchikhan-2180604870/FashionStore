@@ -18,20 +18,15 @@ namespace FashionStore.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var productcount = _context.Products.Count();
-            var usercount = _context.Users.Count();
-            var orderscount = _context.Orders.Count();
-            var turnover = _context.OrderDetails.Include(x => x.Product).Sum(x => x.Product.Price * x.Quantity);
-            var model = new Dashbroad()
-            {
-                ProducstCount = productcount,
-                UsersCount = usercount,
-                OrdersCount = orderscount,
-                Turnover = turnover
-            };
-            return View(model);
+            
+            return View();
         }
         public IActionResult Details()
+        {
+            return View();
+        }
+
+        public IActionResult RevenueCategory()
         {
             return View();
         }

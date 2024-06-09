@@ -1,0 +1,37 @@
+﻿.publ {
+    width: 100%;
+    height: 300px; /* Adjust height as needed */
+}
+
+.chart-title {
+    font-size: 1.2rem; /* Adjust the title font size */
+    text-align: center; /* Center the title */
+    margin-bottom: 10px;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+}
+
+@media (max-width: 480px) {
+    #ordernew {
+        width: 100%;
+        height: 200px; /* Adjust height as needed */
+    }
+
+    .chart-title {
+        font-size: 1rem; /* Adjust the title font size */
+        text-align: center; /* Center the title */
+        margin-bottom: 10px;
+    }
+
+    .chart-legend {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
