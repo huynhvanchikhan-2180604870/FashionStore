@@ -1,54 +1,231 @@
-﻿@model FashionStore.Areas.Admin.Models.Dashbroad
+﻿
 @{
-	ViewData["Title"] = "Dashboard";
-	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Style {
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.3/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    
 }
 <style>
-
-
-    .transion {
-        transition: all 0.3s ease;
+    button {
+        padding: 1.3em 3em;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        font-weight: 500;
+        color: #000;
+        background-color: #fff;
+        border: none;
+        border-radius: 45px;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease 0s;
+        cursor: pointer;
+        outline: none;
     }
 
-        .transion:hover {
-            transform: scale(1.01);
+        button:hover {
+            background-color: #23c483;
+            box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+            color: #fff;
+            transform: translateY(-7px);
+        }
+
+        button:active {
+            transform: translateY(-1px);
         }
 </style>
-<div class="content-wrapper-scroll">
-
-    <div class="container bg-light mt-5 shadow w-autorounded-3 pb-5" style="width:100vw;height:100vh">
-        <div id="ordernew" style="width: 600px;height:400px;" class="mt-5"></div>
+<div class="container-fluid bg-light mt-5 shadow w-auto rounded-3 pb-5">
+    <div class="row justify-content-center mt-2">
+        <div class="col-12 text-center mb-3">
+            <label for="startDate" class="text-uppercase font-weight-bold h4">Chọn thống kê theo tháng</label>
+        </div>
+        <div class="col-12 col-md-4 mb-3">
+            <input type="date" class="form-control" id="startDate" />
+        </div>
+        <div class="col-12 col-md-4 mb-3">
+            <input type="date" class="form-control" id="endDate" />
+        </div>
+        <div class="col-12 text-center mb-3">
+            <button onclick="loadChartData()">Lấy dữ liệu</button>
+        </div>
     </div>
-	<!-- Content wrapper end -->
+    <div class="row">
+        <div class="col-12">
+            <div id="ordernew" class="mt-5 publ"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div id="monthChart" class="mt-5 publ"></div>
+        </div>
+    </div>
 </div>
 
 <script>
-    // Initialize the echarts instance based on the prepared dom
     var myChart = echarts.init(document.getElementById('ordernew'));
 
-    // Specify the configuration items and data for the chart
-    var option = {
-        title: {
-            text: 'ECharts Getting Started Example'
-        },
-        tooltip: {},
-        legend: {
-            data: ['sales']
-        },
-        xAxis: {
-            data: ['Shirts', 'Cardigans', 'Chiffons', 'Pants', 'Heels', 'Socks']
-        },
-        yAxis: {},
-        series: [
-            {
-                name: 'sales',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }
-        ]
-    };
+    async function loadChartData() {
+        var startDate = document.getElementById('startDate').value;
+        var endDate = document.getElementById('endDate').value;
 
-    // Display the chart using the configuration items and data just specified.
-    myChart.setOption(option);
+        if (!startDate || !endDate) {
+            alert("Vui lòng chọn ngày bắt đầu và ngày kết thúc");
+            return;
+        }
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        if (start > end) {
+            alert("Ngày bắt đầu phải trước ngày kết thúc.");
+            return;
+        }
+
+        try {
+            const response = await axios.get(`/api/admin/adminapi/chartdata`, {
+                params: {
+                    startDate: startDate,
+                    endDate: endDate
+                }
+            });
+            const data = response.data;
+            console.log('Data received:', data);
+
+            if (!data.categories || !data.series) {
+                throw new Error('Invalid data structure');
+            }
+
+            const categories = data.categories;
+            const series = data.series.map(s => ({
+                name: s.name,
+                type: 'bar',
+                data: s.data
+            }));
+
+            console.log('Categories:', categories);
+            console.log('Series:', series);
+
+            var option = {
+                title: {
+                    text: 'Thống kê doanh thu'
+                },
+                tooltip: {},
+                legend: {
+                    data: series.map(s => s.name)
+                },
+                xAxis: {
+                    type: 'category',
+                    data: categories
+                },
+                yAxis: {
+                    type: 'value',
+                    minInterval: 1 // Đảm bảo rằng các giá trị trên trục y là số nguyên
+                },
+                series: series
+            };
+
+            myChart.setOption(option);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            alert("Có lỗi xảy ra khi lấy dữ liệu: " + error.message);
+        }
+    }
 </script>
 
+@* <script>
+    var dayOrWeekChart;
+    var monthChart;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        dayOrWeekChart = echarts.init(document.getElementById('dayOrWeekChart'));
+        monthChart = echarts.init(document.getElementById('monthChart'));
+    });
+
+    async function loadChartData() {
+        var startDate = document.getElementById('startDate').value;
+        var endDate = document.getElementById('endDate').value;
+
+        if (!startDate || !endDate) {
+            alert("Vui lòng chọn ngày bắt đầu và ngày kết thúc");
+            return;
+        }
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        if (start > end) {
+            alert("Ngày bắt đầu phải trước ngày kết thúc.");
+            return;
+        }
+
+        try {
+            const response = await axios.get(`/api/admin/adminapi/chartdata`, {
+                params: {
+                    startDate: startDate,
+                    endDate: endDate
+                }
+            });
+            const data = response.data;
+            console.log('Data received:', data);
+
+            if (!data.categories || !data.series) {
+                throw new Error('Invalid data structure');
+            }
+
+            const categories = data.categories.$values || [];
+            const orderSeries = data.series.find(s => s.name === 'Đơn hàng') || { data: { $values: [] } };
+            const revenueSeries = data.series.find(s => s.name === 'Doanh thu') || { data: { $values: [] } };
+
+            console.log('Categories:', categories);
+            console.log('Order Series:', orderSeries);
+            console.log('Revenue Series:', revenueSeries);
+
+            if (categories.length > 0 && orderSeries.data.$values.length > 0 && revenueSeries.data.$values.length > 0) {
+                var chartOption = {
+                    title: {
+                        text: 'Thống kê đơn hàng và doanh thu'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data: [orderSeries.name, revenueSeries.name]
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: categories
+                    },
+                    yAxis: {
+                        type: 'value',
+                        minInterval: 1 // Đảm bảo rằng các giá trị trên trục y là số nguyên
+                    },
+                    series: [
+                        {
+                            name: orderSeries.name,
+                            type: 'bar',
+                            data: orderSeries.data.$values
+                        },
+                        {
+                            name: revenueSeries.name,
+                            type: 'line',
+                            data: revenueSeries.data.$values
+                        }
+                    ]
+                };
+
+                if (categories.length > 7) { // Giả định rằng dữ liệu theo tháng có nhiều hơn 7 điểm dữ liệu
+                    monthChart.setOption(chartOption);
+                    dayOrWeekChart.clear(); // Xóa biểu đồ không cần thiết
+                } else {
+                    dayOrWeekChart.setOption(chartOption);
+                    monthChart.clear(); // Xóa biểu đồ không cần thiết
+                }
+            } else {
+                alert('Không có dữ liệu để hiển thị.');
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            alert("Có lỗi xảy ra khi lấy dữ liệu: " + error.message);
+        }
+    }
+</script> *@

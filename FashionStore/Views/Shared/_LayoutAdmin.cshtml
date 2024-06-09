@@ -39,7 +39,7 @@
 	<!-- Main css -->
 	<link rel="stylesheet" href="~/admin/assets/css/main.min.css">
 
-
+	<link href="~/admin/assets/css/cc.css" rel="stylesheet" />
 	<!-- *************
 		************ Vendor Css Files *************
 	************ -->
@@ -61,7 +61,7 @@
 			<!-- Sidebar brand starts -->
 			<div class="sidebar-brand">
 				<a href="index.html" class="logo">
-					<img src="http://hockitsystems.id.vn:8080/images/HOCK.svg" alt="Melon Admin Dashboard" />
+					<img src="http://localhost:5249/images/HOCK.svg" alt="Melon Admin Dashboard" />
 				</a>
 			</div>
 			<!-- Sidebar brand starts -->
@@ -69,12 +69,21 @@
 			<div class="sidebar-menu">
 				<div class="sidebarMenuScroll">
 					<ul>
-						<li class="sidebar-dropdown active">
-							<a asp-action="Index" asp-controller="Home" asp-area="admin">
+						<li class="sidebar-dropdown">
+							<a href ="#">
 								<i class="bi bi-house"></i>
 								<span class="menu-text">Dashboards</span>
 							</a>
-
+							<div class="sidebar-submenu">
+								<ul>
+									<li>
+										<a asp-action="Index" asp-controller="Home" asp-area="admin">Revenue over date</a>
+									</li>
+									<li>
+										<a asp-action="RevenueCategory" asp-controller="Home" asp-area="admin">Revenue by category</a>
+									</li>
+								</ul>
+							</div>
 						</li>
 						<li class="sidebar-dropdown">
 							<a href="#">

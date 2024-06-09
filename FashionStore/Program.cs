@@ -9,7 +9,10 @@ using DinkToPdf.Contracts;
 using DinkToPdf;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<FashionStoreDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add services to the container.
+builder.Services.AddDbContext<FashionStoreDbContext>(option =>
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders()
@@ -18,7 +21,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 builder.Services.AddRazorPages();
 
-// Add services to the container.
 builder.Services.AddSingleton<ShoppingCartService>();
 
 builder.Services.AddControllersWithViews()
@@ -27,9 +29,12 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
         options.JsonSerializerOptions.MaxDepth = 128;
     });
+
 // Register DinkToPdf services
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
 builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -42,8 +47,10 @@ builder.Services.AddSingleton(x => new PaypalClient(
     builder.Configuration["Paypal:AppSecrect"],
     builder.Configuration["Paypal:Mode"]
 ));
+
 builder.Services.AddSingleton<IVnPayService, VnPayService>();
 builder.Services.AddSingleton<IPDFService, PDFService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -56,19 +63,30 @@ if (!app.Environment.IsDevelopment())
 app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapAreaControllerRoute(
-    name: "Admin",
-    areaName: "Admin",
-    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    // Map Admin area route
+    endpoints.MapAreaControllerRoute(
+        name: "Admin",
+        areaName: "Admin",
+        pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    // Map default route
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapRazorPages();
+    // Map API controllers
+    endpoints.MapControllers();
+
+    // Map Razor Pages
+    endpoints.MapRazorPages();
+});
 
 app.Run();
